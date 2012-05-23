@@ -35,42 +35,42 @@
       <item>
        <layout class="QGridLayout" name="gridLayout_6">
         <item row="0" column="0">
-         <widget class="QPushButton" name="pushButton_2">
+         <widget class="QPushButton" name="pushButton_DUP">
           <property name="text">
            <string>DUP</string>
           </property>
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="pushButton_SUM">
           <property name="text">
            <string>SUM</string>
           </property>
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QPushButton" name="pushButton_4">
+         <widget class="QPushButton" name="pushButton_DROP">
           <property name="text">
            <string>DROP</string>
           </property>
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QPushButton" name="pushButton_6">
+         <widget class="QPushButton" name="pushButton_CLEAR">
           <property name="text">
            <string>CLEAR</string>
           </property>
          </widget>
         </item>
         <item row="4" column="0">
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="pushButton_SWAP">
           <property name="text">
            <string>SWAP</string>
           </property>
          </widget>
         </item>
         <item row="5" column="0">
-         <widget class="QPushButton" name="pushButton_5">
+         <widget class="QPushButton" name="pushButton_MEAN">
           <property name="text">
            <string>MEAN</string>
           </property>
@@ -97,16 +97,6 @@
         <property name="mouseTracking">
          <bool>false</bool>
         </property>
-        <item>
-         <property name="text">
-          <string>1</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>2</string>
-         </property>
-        </item>
        </widget>
       </item>
       <item>
@@ -205,91 +195,91 @@
                </widget>
               </item>
               <item row="0" column="3">
-               <widget class="QPushButton" name="pushButton_10">
+               <widget class="QPushButton" name="pushButton_Plus">
                 <property name="text">
                  <string>+</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="0">
-               <widget class="QPushButton" name="pushButton_11">
+               <widget class="QPushButton" name="pushButton_4">
                 <property name="text">
                  <string>4</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="0">
-               <widget class="QPushButton" name="pushButton_12">
+               <widget class="QPushButton" name="pushButton_1">
                 <property name="text">
                  <string>1</string>
                 </property>
                </widget>
               </item>
               <item row="4" column="0" colspan="2">
-               <widget class="QPushButton" name="pushButton_21">
+               <widget class="QPushButton" name="pushButton_Enter">
                 <property name="text">
                  <string>Enter</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QPushButton" name="pushButton_14">
+               <widget class="QPushButton" name="pushButton_5">
                 <property name="text">
                  <string>5</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QPushButton" name="pushButton_17">
+               <widget class="QPushButton" name="pushButton_2">
                 <property name="text">
                  <string>2</string>
                 </property>
                </widget>
               </item>
               <item row="3" column="0" colspan="3">
-               <widget class="QPushButton" name="pushButton_13">
+               <widget class="QPushButton" name="pushButton_0">
                 <property name="text">
                  <string>0</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="2">
-               <widget class="QPushButton" name="pushButton_15">
+               <widget class="QPushButton" name="pushButton_6">
                 <property name="text">
                  <string>6</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="2">
-               <widget class="QPushButton" name="pushButton_18">
+               <widget class="QPushButton" name="pushButton_3">
                 <property name="text">
                  <string>3</string>
                 </property>
                </widget>
               </item>
               <item row="3" column="3">
-               <widget class="QPushButton" name="pushButton_22">
+               <widget class="QPushButton" name="pushButton_DIV">
                 <property name="text">
                  <string>/</string>
                 </property>
                </widget>
               </item>
               <item row="4" column="2" colspan="2">
-               <widget class="QPushButton" name="pushButton_40">
+               <widget class="QPushButton" name="pushButton_EVAL">
                 <property name="text">
                  <string>EVAL</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="3">
-               <widget class="QPushButton" name="pushButton_19">
+               <widget class="QPushButton" name="pushButton_Mul">
                 <property name="text">
                  <string>*</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="3">
-               <widget class="QPushButton" name="pushButton_16">
+               <widget class="QPushButton" name="pushButton_Moins">
                 <property name="text">
                  <string>-</string>
                 </property>
@@ -300,112 +290,112 @@
             <item>
              <layout class="QGridLayout" name="gridLayout_5">
               <item row="0" column="0">
-               <widget class="QPushButton" name="pushButton_24">
+               <widget class="QPushButton" name="pushButton_SIGN">
                 <property name="text">
                  <string>SIGN</string>
                 </property>
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QPushButton" name="pushButton_25">
+               <widget class="QPushButton" name="pushButton_MOD">
                 <property name="text">
                  <string>MOD</string>
                 </property>
                </widget>
               </item>
               <item row="0" column="2">
-               <widget class="QPushButton" name="pushButton_26">
+               <widget class="QPushButton" name="pushButton_POW">
                 <property name="text">
                  <string>POW</string>
                 </property>
                </widget>
               </item>
               <item row="0" column="3">
-               <widget class="QPushButton" name="pushButton_33">
+               <widget class="QPushButton" name="pushButton_FACT">
                 <property name="text">
                  <string>FACT</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="0">
-               <widget class="QPushButton" name="pushButton_27">
+               <widget class="QPushButton" name="pushButton_COS">
                 <property name="text">
                  <string>COS</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="1">
-               <widget class="QPushButton" name="pushButton_28">
+               <widget class="QPushButton" name="pushButton_COSH">
                 <property name="text">
                  <string>COSH</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="0">
-               <widget class="QPushButton" name="pushButton_34">
+               <widget class="QPushButton" name="pushButton_SIN">
                 <property name="text">
                  <string>SIN</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="1">
-               <widget class="QPushButton" name="pushButton_35">
+               <widget class="QPushButton" name="pushButton_SINH">
                 <property name="text">
                  <string>SINH</string>
                 </property>
                </widget>
               </item>
               <item row="3" column="0">
-               <widget class="QPushButton" name="pushButton_29">
+               <widget class="QPushButton" name="pushButton_TAN">
                 <property name="text">
                  <string>TAN</string>
                 </property>
                </widget>
               </item>
               <item row="3" column="1">
-               <widget class="QPushButton" name="pushButton_36">
+               <widget class="QPushButton" name="pushButton_TANH">
                 <property name="text">
                  <string>TANH</string>
                 </property>
                </widget>
               </item>
               <item row="4" column="0" colspan="2">
-               <widget class="QPushButton" name="pushButton_20">
+               <widget class="QPushButton" name="pushButton_Annuler">
                 <property name="text">
                  <string>Annuler</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="2">
-               <widget class="QPushButton" name="pushButton_30">
+               <widget class="QPushButton" name="pushButton_LN">
                 <property name="text">
                  <string>LN</string>
                 </property>
                </widget>
               </item>
               <item row="2" column="2">
-               <widget class="QPushButton" name="pushButton_31">
+               <widget class="QPushButton" name="pushButton_INV">
                 <property name="text">
                  <string>INV</string>
                 </property>
                </widget>
               </item>
               <item row="3" column="2">
-               <widget class="QPushButton" name="pushButton_32">
+               <widget class="QPushButton" name="pushButton_SQRT">
                 <property name="text">
                  <string>SQRT</string>
                 </property>
                </widget>
               </item>
               <item row="3" column="3">
-               <widget class="QPushButton" name="pushButton_39">
+               <widget class="QPushButton" name="pushButton_CUBE">
                 <property name="text">
                  <string>CUBE</string>
                 </property>
                </widget>
               </item>
               <item row="4" column="2" colspan="2">
-               <widget class="QPushButton" name="pushButton_23">
+               <widget class="QPushButton" name="pushButton_Retablir">
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
@@ -418,14 +408,14 @@
                </widget>
               </item>
               <item row="2" column="3">
-               <widget class="QPushButton" name="pushButton_38">
+               <widget class="QPushButton" name="pushButton_SQR">
                 <property name="text">
                  <string>SQR</string>
                 </property>
                </widget>
               </item>
               <item row="1" column="3">
-               <widget class="QPushButton" name="pushButton_37">
+               <widget class="QPushButton" name="pushButton_LOG">
                 <property name="text">
                  <string>LOG</string>
                 </property>
@@ -506,7 +496,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_25</receiver>
+   <receiver>pushButton_MOD</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -522,7 +512,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_27</receiver>
+   <receiver>pushButton_COS</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -538,7 +528,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_28</receiver>
+   <receiver>pushButton_COSH</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -554,7 +544,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_34</receiver>
+   <receiver>pushButton_SIN</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -570,7 +560,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_35</receiver>
+   <receiver>pushButton_SINH</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -586,7 +576,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_29</receiver>
+   <receiver>pushButton_TAN</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -602,7 +592,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_36</receiver>
+   <receiver>pushButton_TANH</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -618,7 +608,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_26</receiver>
+   <receiver>pushButton_POW</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -634,7 +624,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_33</receiver>
+   <receiver>pushButton_FACT</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -650,7 +640,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_30</receiver>
+   <receiver>pushButton_LN</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -666,7 +656,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_37</receiver>
+   <receiver>pushButton_LOG</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -682,7 +672,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_31</receiver>
+   <receiver>pushButton_INV</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
@@ -698,7 +688,7 @@
   <connection>
    <sender>checkBox</sender>
    <signal>clicked(bool)</signal>
-   <receiver>pushButton_32</receiver>
+   <receiver>pushButton_SQRT</receiver>
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">

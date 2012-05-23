@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Wed May 23 15:26:02 2012
+** Created: Wed May 23 21:31:44 2012
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.7.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -32,19 +32,19 @@ static const uint qt_meta_data_MainWindow[] = {
 
  // slots: signature, parameters, type, tag, flags
       12,   11,   11,   11, 0x08,
-      39,   11,   11,   11, 0x08,
-      66,   11,   11,   11, 0x08,
-      93,   11,   11,   11, 0x08,
-     120,   11,   11,   11, 0x08,
-     147,   11,   11,   11, 0x08,
-     174,   11,   11,   11, 0x08,
-     201,   11,   11,   11, 0x08,
-     227,   11,   11,   11, 0x08,
-     253,   11,   11,   11, 0x08,
-     279,   11,   11,   11, 0x08,
-     306,   11,   11,   11, 0x08,
-     333,   11,   11,   11, 0x08,
-     360,   11,   11,   11, 0x08,
+      38,   11,   11,   11, 0x08,
+      64,   11,   11,   11, 0x08,
+      90,   11,   11,   11, 0x08,
+     116,   11,   11,   11, 0x08,
+     142,   11,   11,   11, 0x08,
+     168,   11,   11,   11, 0x08,
+     194,   11,   11,   11, 0x08,
+     220,   11,   11,   11, 0x08,
+     246,   11,   11,   11, 0x08,
+     272,   11,   11,   11, 0x08,
+     301,   11,   11,   11, 0x08,
+     331,   11,   11,   11, 0x08,
+     359,   11,   11,   11, 0x08,
      387,   11,   11,   11, 0x08,
      404,   11,   11,   11, 0x08,
      416,  414,   11,   11, 0x08,
@@ -53,21 +53,22 @@ static const uint qt_meta_data_MainWindow[] = {
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
-    "MainWindow\0\0on_pushButton_13_clicked()\0"
-    "on_pushButton_12_clicked()\0"
-    "on_pushButton_17_clicked()\0"
-    "on_pushButton_18_clicked()\0"
-    "on_pushButton_11_clicked()\0"
-    "on_pushButton_14_clicked()\0"
-    "on_pushButton_15_clicked()\0"
+    "MainWindow\0\0on_pushButton_0_clicked()\0"
+    "on_pushButton_1_clicked()\0"
+    "on_pushButton_2_clicked()\0"
+    "on_pushButton_3_clicked()\0"
+    "on_pushButton_4_clicked()\0"
+    "on_pushButton_5_clicked()\0"
+    "on_pushButton_6_clicked()\0"
     "on_pushButton_7_clicked()\0"
     "on_pushButton_8_clicked()\0"
     "on_pushButton_9_clicked()\0"
-    "on_pushButton_10_clicked()\0"
-    "on_pushButton_16_clicked()\0"
-    "on_pushButton_19_clicked()\0"
-    "on_pushButton_22_clicked()\0afficheClavier()\0"
-    "effacer()\0m\0changeMode(int)\0"
+    "on_pushButton_Plus_clicked()\0"
+    "on_pushButton_Moins_clicked()\0"
+    "on_pushButton_Mul_clicked()\0"
+    "on_pushButton_DIV_clicked()\0"
+    "afficheClavier()\0effacer()\0m\0"
+    "changeMode(int)\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -99,20 +100,20 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: on_pushButton_13_clicked(); break;
-        case 1: on_pushButton_12_clicked(); break;
-        case 2: on_pushButton_17_clicked(); break;
-        case 3: on_pushButton_18_clicked(); break;
-        case 4: on_pushButton_11_clicked(); break;
-        case 5: on_pushButton_14_clicked(); break;
-        case 6: on_pushButton_15_clicked(); break;
+        case 0: on_pushButton_0_clicked(); break;
+        case 1: on_pushButton_1_clicked(); break;
+        case 2: on_pushButton_2_clicked(); break;
+        case 3: on_pushButton_3_clicked(); break;
+        case 4: on_pushButton_4_clicked(); break;
+        case 5: on_pushButton_5_clicked(); break;
+        case 6: on_pushButton_6_clicked(); break;
         case 7: on_pushButton_7_clicked(); break;
         case 8: on_pushButton_8_clicked(); break;
         case 9: on_pushButton_9_clicked(); break;
-        case 10: on_pushButton_10_clicked(); break;
-        case 11: on_pushButton_16_clicked(); break;
-        case 12: on_pushButton_19_clicked(); break;
-        case 13: on_pushButton_22_clicked(); break;
+        case 10: on_pushButton_Plus_clicked(); break;
+        case 11: on_pushButton_Moins_clicked(); break;
+        case 12: on_pushButton_Mul_clicked(); break;
+        case 13: on_pushButton_DIV_clicked(); break;
         case 14: afficheClavier(); break;
         case 15: effacer(); break;
         case 16: changeMode((*reinterpret_cast< int(*)>(_a[1]))); break;

@@ -33,25 +33,25 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //Connection des raccourcis claviers avec les Widgets
 
-    QObject::connect(shortcut0, SIGNAL(activated()), this, SLOT(on_pushButton_13_clicked()));
-    QObject::connect(shortcut1, SIGNAL(activated()), this, SLOT(on_pushButton_12_clicked()));
-    QObject::connect(shortcut2, SIGNAL(activated()), this, SLOT(on_pushButton_17_clicked()));
-    QObject::connect(shortcut3, SIGNAL(activated()), this, SLOT(on_pushButton_18_clicked()));
-    QObject::connect(shortcut4, SIGNAL(activated()), this, SLOT(on_pushButton_11_clicked()));
-    QObject::connect(shortcut5, SIGNAL(activated()), this, SLOT(on_pushButton_14_clicked()));
-    QObject::connect(shortcut6, SIGNAL(activated()), this, SLOT(on_pushButton_15_clicked()));
+    QObject::connect(shortcut0, SIGNAL(activated()), this, SLOT(on_pushButton_0_clicked()));
+    QObject::connect(shortcut1, SIGNAL(activated()), this, SLOT(on_pushButton_1_clicked()));
+    QObject::connect(shortcut2, SIGNAL(activated()), this, SLOT(on_pushButton_2_clicked()));
+    QObject::connect(shortcut3, SIGNAL(activated()), this, SLOT(on_pushButton_3_clicked()));
+    QObject::connect(shortcut4, SIGNAL(activated()), this, SLOT(on_pushButton_4_clicked()));
+    QObject::connect(shortcut5, SIGNAL(activated()), this, SLOT(on_pushButton_5_clicked()));
+    QObject::connect(shortcut6, SIGNAL(activated()), this, SLOT(on_pushButton_6_clicked()));
     QObject::connect(shortcut7, SIGNAL(activated()), this, SLOT(on_pushButton_7_clicked()));
     QObject::connect(shortcut8, SIGNAL(activated()), this, SLOT(on_pushButton_8_clicked()));
     QObject::connect(shortcut9, SIGNAL(activated()), this, SLOT(on_pushButton_9_clicked()));
-    QObject::connect(shortcutP, SIGNAL(activated()), this, SLOT(on_pushButton_10_clicked()));
-    QObject::connect(shortcutM, SIGNAL(activated()), this, SLOT(on_pushButton_16_clicked()));
-    QObject::connect(shortcutF, SIGNAL(activated()), this, SLOT(on_pushButton_19_clicked()));
-    QObject::connect(shortcutD, SIGNAL(activated()), this, SLOT(on_pushButton_22_clicked()));
-    //QObject::connect(shortcutEval, SIGNAL(activated()), this, SLOT(on_pushButton_40_clicked()));
-    //QObject::connect(shortcutEnter, SIGNAL(activated()), this, SLOT(on_pushButton_21_clicked()));
-    //QObject::connect(shortcutReturn, SIGNAL(activated()), this, SLOT(on_pushButton_21_clicked()));
-    //QObject::connect(shortcutAnnuler, SIGNAL(activated()), this, SLOT(on_pushButton_20_clicked()));
-    //QObject::connect(shortcutRetablir, SIGNAL(activated()), this, SLOT(on_pushButton_23_clicked()));
+    QObject::connect(shortcutP, SIGNAL(activated()), this, SLOT(on_pushButton_Plus_clicked()));
+    QObject::connect(shortcutM, SIGNAL(activated()), this, SLOT(on_pushButton_Moins_clicked()));
+    QObject::connect(shortcutF, SIGNAL(activated()), this, SLOT(on_pushButton_Mul_clicked()));
+    QObject::connect(shortcutD, SIGNAL(activated()), this, SLOT(on_pushButton_DIV_clicked()));
+    //QObject::connect(shortcutEval, SIGNAL(activated()), this, SLOT(on_pushButton_EVAL_clicked()));
+    //QObject::connect(shortcutEnter, SIGNAL(activated()), this, SLOT(on_pushButton_Enter_clicked()));
+    //QObject::connect(shortcutReturn, SIGNAL(activated()), this, SLOT(on_pushButton_Enter_clicked()));
+    //QObject::connect(shortcutAnnuler, SIGNAL(activated()), this, SLOT(on_pushButton_Annuler_clicked()));
+    //QObject::connect(shortcutRetablir, SIGNAL(activated()), this, SLOT(on_pushButton_Retablir_clicked()));
     QObject::connect(shortcutEffacer, SIGNAL(activated()), this, SLOT(effacer()));
 
     //Connection des widgets avec les Slots modifiant l'affichage
@@ -67,43 +67,43 @@ MainWindow::~MainWindow()
 
 //Définition des slots des raccourcis claviers
 
-void MainWindow::on_pushButton_13_clicked()
+void MainWindow::on_pushButton_0_clicked()
 {
     QString texte = ui->textEdit->toPlainText() + "0";
     ui->textEdit->clear();
     ui->textEdit->setText(texte);
 }
-void MainWindow::on_pushButton_12_clicked()
+void MainWindow::on_pushButton_1_clicked()
 {
     QString texte = ui->textEdit->toPlainText() + "1";
     ui->textEdit->clear();
     ui->textEdit->setText(texte);
 }
-void MainWindow::on_pushButton_17_clicked()
+void MainWindow::on_pushButton_2_clicked()
 {
     QString texte = ui->textEdit->toPlainText() + "2";
     ui->textEdit->clear();
     ui->textEdit->setText(texte);
 }
-void MainWindow::on_pushButton_18_clicked()
+void MainWindow::on_pushButton_3_clicked()
 {
     QString texte = ui->textEdit->toPlainText() + "3";
     ui->textEdit->clear();
     ui->textEdit->setText(texte);
 }
-void MainWindow::on_pushButton_11_clicked()
+void MainWindow::on_pushButton_4_clicked()
 {
     QString texte = ui->textEdit->toPlainText() + "4";
     ui->textEdit->clear();
     ui->textEdit->setText(texte);
 }
-void MainWindow::on_pushButton_14_clicked()
+void MainWindow::on_pushButton_5_clicked()
 {
     QString texte = ui->textEdit->toPlainText() + "5";
     ui->textEdit->clear();
     ui->textEdit->setText(texte);
 }
-void MainWindow::on_pushButton_15_clicked()
+void MainWindow::on_pushButton_6_clicked()
 {
     QString texte = ui->textEdit->toPlainText() + "6";
     ui->textEdit->clear();
@@ -127,25 +127,25 @@ void MainWindow::on_pushButton_9_clicked()
     ui->textEdit->clear();
     ui->textEdit->setText(texte);
 }
-void MainWindow::on_pushButton_10_clicked()
+void MainWindow::on_pushButton_Plus_clicked()
 {
     QString texte = ui->textEdit->toPlainText() + "+";
     ui->textEdit->clear();
     ui->textEdit->setText(texte);
 }
-void MainWindow::on_pushButton_16_clicked()
+void MainWindow::on_pushButton_Moins_clicked()
 {
     QString texte = ui->textEdit->toPlainText() + "-";
     ui->textEdit->clear();
     ui->textEdit->setText(texte);
 }
-void MainWindow::on_pushButton_19_clicked()
+void MainWindow::on_pushButton_Mul_clicked()
 {
     QString texte = ui->textEdit->toPlainText() + "*";
     ui->textEdit->clear();
     ui->textEdit->setText(texte);
 }
-void MainWindow::on_pushButton_22_clicked()
+void MainWindow::on_pushButton_DIV_clicked()
 {
     QString texte = ui->textEdit->toPlainText() + "/";
     ui->textEdit->clear();
@@ -158,41 +158,41 @@ void MainWindow::afficheClavier()
 {
     if(ui->actionClavier->isChecked())
     {
+        ui->pushButton_0->setVisible(true);
+        ui->pushButton_1->setVisible(true);
+        ui->pushButton_2->setVisible(true);
+        ui->pushButton_3->setVisible(true);
+        ui->pushButton_4->setVisible(true);
+        ui->pushButton_5->setVisible(true);
+        ui->pushButton_6->setVisible(true);
         ui->pushButton_7->setVisible(true);
         ui->pushButton_8->setVisible(true);
         ui->pushButton_9->setVisible(true);
-        ui->pushButton_10->setVisible(true);
-        ui->pushButton_11->setVisible(true);
-        ui->pushButton_12->setVisible(true);
-        ui->pushButton_13->setVisible(true);
-        ui->pushButton_14->setVisible(true);
-        ui->pushButton_15->setVisible(true);
-        ui->pushButton_16->setVisible(true);
-        ui->pushButton_17->setVisible(true);
-        ui->pushButton_18->setVisible(true);
-        ui->pushButton_19->setVisible(true);
-        ui->pushButton_21->setVisible(true);
-        ui->pushButton_22->setVisible(true);
-        ui->pushButton_40->setVisible(true);
+        ui->pushButton_Enter->setVisible(true);
+        ui->pushButton_EVAL->setVisible(true);
+        ui->pushButton_Plus->setVisible(true);
+        ui->pushButton_Moins->setVisible(true);
+        ui->pushButton_Mul->setVisible(true);
+        ui->pushButton_DIV->setVisible(true);
     }
     else
     {
+        ui->pushButton_0->setVisible(false);
+        ui->pushButton_1->setVisible(false);
+        ui->pushButton_2->setVisible(false);
+        ui->pushButton_3->setVisible(false);
+        ui->pushButton_4->setVisible(false);
+        ui->pushButton_5->setVisible(false);
+        ui->pushButton_6->setVisible(false);
         ui->pushButton_7->setVisible(false);
         ui->pushButton_8->setVisible(false);
         ui->pushButton_9->setVisible(false);
-        ui->pushButton_10->setVisible(false);
-        ui->pushButton_11->setVisible(false);
-        ui->pushButton_12->setVisible(false);
-        ui->pushButton_13->setVisible(false);
-        ui->pushButton_14->setVisible(false);
-        ui->pushButton_15->setVisible(false);
-        ui->pushButton_16->setVisible(false);
-        ui->pushButton_17->setVisible(false);
-        ui->pushButton_18->setVisible(false);
-        ui->pushButton_19->setVisible(false);
-        ui->pushButton_21->setVisible(false);
-        ui->pushButton_22->setVisible(false);
-        ui->pushButton_40->setVisible(false);
+        ui->pushButton_Enter->setVisible(false);
+        ui->pushButton_EVAL->setVisible(false);
+        ui->pushButton_Plus->setVisible(false);
+        ui->pushButton_Moins->setVisible(false);
+        ui->pushButton_Mul->setVisible(false);
+        ui->pushButton_DIV->setVisible(false);
     }
 }
 void MainWindow::effacer()
@@ -204,11 +204,11 @@ void MainWindow::effacer()
 void MainWindow::changeMode(int m)
 {
     if(m != 0){
-        ui->pushButton_25->setDisabled(true);
-        ui->pushButton_33->setDisabled(true);
+        ui->pushButton_MOD->setDisabled(true);
+        ui->pushButton_FACT->setDisabled(true);
     }
     else if(!ui->checkBox->isChecked()){
-        ui->pushButton_25->setDisabled(false);
-        ui->pushButton_33->setDisabled(false);
+        ui->pushButton_MOD->setDisabled(false);
+        ui->pushButton_FACT->setDisabled(false);
     }
 }
