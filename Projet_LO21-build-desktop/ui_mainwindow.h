@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed May 23 12:06:34 2012
+** Created: Wed May 23 15:38:21 2012
 **      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -484,8 +484,8 @@ public:
         comboBox->clear();
         comboBox->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "Entier", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("MainWindow", "R\303\251el", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Rationnel", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "R\303\251el", 0, QApplication::UnicodeUTF8)
         );
         label->setText(QApplication::translate("MainWindow", "Mode :", 0, QApplication::UnicodeUTF8));
         checkBox->setText(QApplication::translate("MainWindow", "Complexe", 0, QApplication::UnicodeUTF8));

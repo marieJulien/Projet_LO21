@@ -139,12 +139,12 @@
               </item>
               <item>
                <property name="text">
-                <string>Réel</string>
+                <string>Rationnel</string>
                </property>
               </item>
               <item>
                <property name="text">
-                <string>Rationnel</string>
+                <string>Réel</string>
                </property>
               </item>
              </widget>

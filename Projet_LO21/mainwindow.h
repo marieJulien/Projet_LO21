@@ -36,6 +36,8 @@ private slots:
     //void on_pushButton_20_clicked()
     //void on_pushButton_23_clicked()
     void afficheClavier();
+    void effacer();
+    void changeMode(int m);
 
 private:
     Ui::MainWindow *ui;

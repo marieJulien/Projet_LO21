@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     //QShortcut* shortcutReturn = new QShortcut(QKeySequence(Qt::Key_Return), this);
     //QShortcut* shortcutAnnuler = new QShortcut(QKeySequence("Ctrl+z"), this);
     //QShortcut* shortcutRetablir = new QShortcut(QKeySequence("Ctrl+y"), this);
+    QShortcut* shortcutEffacer = new QShortcut(QKeySequence("Backspace"), this);
 
     //Connection des raccourcis claviers avec les Widgets
 
@@ -51,10 +52,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //QObject::connect(shortcutReturn, SIGNAL(activated()), this, SLOT(on_pushButton_21_clicked()));
     //QObject::connect(shortcutAnnuler, SIGNAL(activated()), this, SLOT(on_pushButton_20_clicked()));
     //QObject::connect(shortcutRetablir, SIGNAL(activated()), this, SLOT(on_pushButton_23_clicked()));
+    QObject::connect(shortcutEffacer, SIGNAL(activated()), this, SLOT(effacer()));
 
-    //Connection des widgets avec les Slots persos
+    //Connection des widgets avec les Slots modifiant l'affichage
 
     QObject::connect(ui->actionClavier, SIGNAL(triggered()), this, SLOT(afficheClavier()));
+    QObject::connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeMode(int)));
 }
 
 MainWindow::~MainWindow()
@@ -190,5 +193,22 @@ void MainWindow::afficheClavier()
         ui->pushButton_21->setVisible(false);
         ui->pushButton_22->setVisible(false);
         ui->pushButton_40->setVisible(false);
+    }
+}
+void MainWindow::effacer()
+{
+    QString tmp = ui->textEdit->toPlainText();
+    int i = tmp.length();
+    ui->textEdit->setPlainText(tmp.left(i-1));
+}
+void MainWindow::changeMode(int m)
+{
+    if(m != 0){
+        ui->pushButton_25->setDisabled(true);
+        ui->pushButton_33->setDisabled(true);
+    }
+    else if(!ui->checkBox->isChecked()){
+        ui->pushButton_25->setDisabled(false);
+        ui->pushButton_33->setDisabled(false);
     }
 }
