@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setFixedSize(600, 334);
 
     //Définition des raccourcis clavier
+
     QShortcut* shortcut0 = new QShortcut(QKeySequence("0"), this);
     QShortcut* shortcut1 = new QShortcut(QKeySequence("1"), this);
     QShortcut* shortcut2 = new QShortcut(QKeySequence("2"), this);
@@ -23,8 +24,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QShortcut* shortcutM = new QShortcut(QKeySequence("-"), this);
     QShortcut* shortcutF = new QShortcut(QKeySequence("*"), this);
     QShortcut* shortcutD = new QShortcut(QKeySequence("/"), this);
+    //QShortcut* shortcutEval = new QShortcut(QKeySequence("Ctrl+e"), this);
+    //QShortcut* shortcutEnter = new QShortcut(QKeySequence(Qt::Key_Enter), this);
+    //QShortcut* shortcutReturn = new QShortcut(QKeySequence(Qt::Key_Return), this);
+    //QShortcut* shortcutAnnuler = new QShortcut(QKeySequence("Ctrl+z"), this);
+    //QShortcut* shortcutRetablir = new QShortcut(QKeySequence("Ctrl+y"), this);
 
     //Connection des raccourcis claviers avec les Widgets
+
     QObject::connect(shortcut0, SIGNAL(activated()), this, SLOT(on_pushButton_13_clicked()));
     QObject::connect(shortcut1, SIGNAL(activated()), this, SLOT(on_pushButton_12_clicked()));
     QObject::connect(shortcut2, SIGNAL(activated()), this, SLOT(on_pushButton_17_clicked()));
@@ -39,8 +46,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(shortcutM, SIGNAL(activated()), this, SLOT(on_pushButton_16_clicked()));
     QObject::connect(shortcutF, SIGNAL(activated()), this, SLOT(on_pushButton_19_clicked()));
     QObject::connect(shortcutD, SIGNAL(activated()), this, SLOT(on_pushButton_22_clicked()));
+    //QObject::connect(shortcutEval, SIGNAL(activated()), this, SLOT(on_pushButton_40_clicked()));
+    //QObject::connect(shortcutEnter, SIGNAL(activated()), this, SLOT(on_pushButton_21_clicked()));
+    //QObject::connect(shortcutReturn, SIGNAL(activated()), this, SLOT(on_pushButton_21_clicked()));
+    //QObject::connect(shortcutAnnuler, SIGNAL(activated()), this, SLOT(on_pushButton_20_clicked()));
+    //QObject::connect(shortcutRetablir, SIGNAL(activated()), this, SLOT(on_pushButton_23_clicked()));
 
     //Connection des widgets avec les Slots persos
+
     QObject::connect(ui->actionClavier, SIGNAL(triggered()), this, SLOT(afficheClavier()));
 }
 

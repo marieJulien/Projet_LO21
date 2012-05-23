@@ -31,6 +31,10 @@ private slots:
     void on_pushButton_16_clicked();
     void on_pushButton_19_clicked();
     void on_pushButton_22_clicked();
+    //void on_pushButton_40_clicked();
+    //void on_pushButton_21_clicked()
+    //void on_pushButton_20_clicked()
+    //void on_pushButton_23_clicked()
     void afficheClavier();
 
 private:

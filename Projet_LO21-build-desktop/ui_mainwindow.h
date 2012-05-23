@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed May 23 00:32:50 2012
+** Created: Wed May 23 12:06:34 2012
 **      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -443,6 +443,19 @@ public:
 
         retranslateUi(MainWindow);
         QObject::connect(actionQuitter, SIGNAL(triggered()), MainWindow, SLOT(close()));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_25, SLOT(setDisabled(bool)));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_27, SLOT(setDisabled(bool)));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_28, SLOT(setDisabled(bool)));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_34, SLOT(setDisabled(bool)));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_35, SLOT(setDisabled(bool)));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_29, SLOT(setDisabled(bool)));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_36, SLOT(setDisabled(bool)));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_26, SLOT(setDisabled(bool)));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_33, SLOT(setDisabled(bool)));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_30, SLOT(setDisabled(bool)));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_37, SLOT(setDisabled(bool)));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_31, SLOT(setDisabled(bool)));
+        QObject::connect(checkBox, SIGNAL(clicked(bool)), pushButton_32, SLOT(setDisabled(bool)));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
