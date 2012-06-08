@@ -2,6 +2,9 @@
 
 using namespace std;
 
+/****************************** CONVERSIONS **********************************************************************************************************/
+
+
 Entier* convertirEntier(Constante* a)
 {
     if(a->getType() == entier)
@@ -89,6 +92,13 @@ Complexe* convertirComplexe(Constante* a, const Type& T)
     else
         return NULL;
 }
+
+
+
+
+/****************************** OPERATEURS BINAIRES **********************************************************************************************************/
+
+
 
 Constante* addition(const Type& Mode, const Type& Tcomplexe, Constante* a, Constante* b)
 {
@@ -309,40 +319,188 @@ Constante* division(const Type& Mode, const Type& Tcomplexe, Constante* a, Const
 }
 
 
-Reel* cosinus(Constante* a, bool degre)
+
+Constante* puissance(Constante* a, Constante* b, const Type& T)
 {
-    Reel* temp = convertirReel(a);
-    if(degre == false)
-        temp->setVal(cos(temp->getVal()));
+    if ((!isExpression(a->getChaine())) && (!isExpression(b->getChaine())))
+    {
+        Reel* temp1 = convertirReel(a);
+        Reel* temp2 = convertirReel(b);
+
+        temp1->setVal(pow(temp1->getVal(), temp2->getVal()));
+
+        if(T == entier)
+            return convertirEntier(temp1);
+        else if(T == rationnel)
+        {
+            Rationnel* n = convertirRationnel(temp1);
+            n->simplifier();
+            return n;
+        }
+
+        else
+            return temp1;
+    }
+    else if (!isExpression(a->getChaine()))
+    {
+        /*Si seulement b est une expression*/
+        string s = b->getChaine();
+        s.erase(0,1);
+        s.erase(s.length()-1,1);
+        return new Expression("'" + a->getChaine() + " " + s + " pow'");
+    }
+    else if (!isExpression(b->getChaine()))
+    {
+        /* Seulement a est une expression */
+        string s = a->getChaine();
+        s.erase(0,1);
+        s.erase(s.length()-1,1);
+        return new Expression("'" + s + " " + b->getChaine() + " pow'");
+    }
     else
-        temp->setVal(cos(temp->getVal()*3.14159265/180));
-    return temp;
+    {
+        /*Les deux sont des expressions*/
+        string sa = a->getChaine();
+        string sb = b->getChaine();
+        sa.erase(sa.length()-1,1);
+        sb.erase(0,1);
+        sb.erase(sb.length()-1,1);
+        return new Expression(sa + " " + sb + " pow'");
+    }
 }
-Reel* cosinush(Constante* a)
+
+
+
+Constante* modulo(Constante* a, Constante* b)
 {
-    Reel* temp = convertirReel(a);
-        temp->setVal(cosh(temp->getVal()));
-    return temp;
-}
-Reel* sinus(Constante* a, bool degre)
-{
-    Reel* temp = convertirReel(a);
-    if(degre == false)
-        temp->setVal(sin(temp->getVal()));
+    if ((!isExpression(a->getChaine())) && (!isExpression(b->getChaine())))
+    {
+        Entier* temp1 = convertirEntier(a);
+        Entier* temp2 = convertirEntier(b);
+
+        temp1->setVal(temp1->getVal() % temp2->getVal());
+        return temp1;
+    }
+    else if (!isExpression(a->getChaine()))
+    {
+        /*Si seulement b est une expression*/
+        string s = b->getChaine();
+        s.erase(0,1);
+        s.erase(s.length()-1,1);
+        return new Expression("'" + a->getChaine() + " " + s + " mod'");
+    }
+    else if (!isExpression(b->getChaine()))
+    {
+        /* Seulement a est une expression */
+        string s = a->getChaine();
+        s.erase(0,1);
+        s.erase(s.length()-1,1);
+        return new Expression("'" + s + " " + b->getChaine() + " mod'");
+    }
     else
-        temp->setVal(sin(temp->getVal()*3.14159265/180));
-    return temp;
+    {
+        /*Les deux sont des expressions*/
+        string sa = a->getChaine();
+        string sb = b->getChaine();
+        sa.erase(sa.length()-1,1);
+        sb.erase(0,1);
+        sb.erase(sb.length()-1,1);
+        return new Expression(sa + " " + sb + " mod'");
+    }
 }
-Reel* sinush(Constante* a)
+
+
+
+
+
+
+/****************************** OPERATEURS UNAIRES **********************************************************************************************************/
+
+
+
+
+
+Constante* cosinus(Constante* a, bool degre)
 {
+    if (!isExpression(a->getChaine()))
+    {
+        Reel* temp = convertirReel(a);
+        if(degre == false)
+            temp->setVal(cos(temp->getVal()));
+        else
+            temp->setVal(cos(temp->getVal()*3.14159265/180));
+        return temp;
+    }
+    else
+    {
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " cos'");
+    }
+}
+
+Constante* cosinush(Constante* a)
+{
+    if (!isExpression(a->getChaine()))
+    {
+        Reel* temp = convertirReel(a);
+            temp->setVal(cosh(temp->getVal()));
+        return temp;
+    }
+    else
+    {
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " cosh'");
+    }
+}
+
+
+Constante* sinus(Constante* a, bool degre)
+{
+    if (!isExpression(a->getChaine()))
+    {
+        Reel* temp = convertirReel(a);
+        if(degre == false)
+            temp->setVal(sin(temp->getVal()));
+        else
+            temp->setVal(sin(temp->getVal()*3.14159265/180));
+        return temp;
+    }
+    else
+    {
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " sin'");
+    }
+}
+
+
+Constante* sinush(Constante* a)
+{
+    if (!isExpression(a->getChaine()))
     {
         Reel* temp = convertirReel(a);
             temp->setVal(sinh(temp->getVal()));
         return temp;
     }
+    else
+    {
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " sinh'");
+    }
 }
-Reel* tangente(Constante* a, bool degre)
+
+
+
+Constante* tangente(Constante* a, bool degre)
 {
+    if (!isExpression(a->getChaine()))
     {
         Reel* temp = convertirReel(a);
         if(degre == false)
@@ -351,161 +509,250 @@ Reel* tangente(Constante* a, bool degre)
             temp->setVal(tan(temp->getVal()*3.14159265/180));
         return temp;
     }
-}
-Reel* tangenteh(Constante* a)
-{
-    Reel* temp = convertirReel(a);
-        temp->setVal(tanh(temp->getVal()));
-    return temp;
-}
-Entier* modulo(Constante* a, Constante* b)
-{
-    Entier* temp1 = convertirEntier(a);
-    Entier* temp2 = convertirEntier(b);
-
-    temp1->setVal(temp1->getVal() % temp2->getVal());
-    return temp1;
-}
-Entier* factorielle(Constante* a)
-{
-    Entier* temp = convertirEntier(a);
-
-    int n = temp->getVal();
-    if(n < 0) return temp;
-    int accu = 1;
-
-    while(n != 0)
+    else
     {
-        accu *= n;
-        n -= 1;
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " tan'");
     }
-
-    temp->setVal(accu);
-    return temp;
 }
-Constante* puissance(Constante* a, Constante* b, const Type& T)
+
+
+Constante* tangenteh(Constante* a)
 {
-    Reel* temp1 = convertirReel(a);
-    Reel* temp2 = convertirReel(b);
-
-    temp1->setVal(pow(temp1->getVal(), temp2->getVal()));
-
-    if(T == entier)
-        return convertirEntier(temp1);
-    else if(T == rationnel)
-    {
-        Rationnel* n = convertirRationnel(temp1);
-        n->simplifier();
-        return n;
-    }
-
-    else
-        return temp1;
-}
-Constante* logarithme(Constante* a, const Type& T)
-{
-    Reel* temp1 = convertirReel(a);
-
-    temp1->setVal(log10(temp1->getVal()));
-
-    if(T == entier)
-        return convertirEntier(temp1);
-    else if(T == rationnel)
-        return convertirRationnel(temp1);
-    else
-        return temp1;
-}
-Constante* logarithmeN(Constante*a, const Type& T)
-{
-    Reel* temp1 = convertirReel(a);
-
-    temp1->setVal(log(temp1->getVal()));
-
-    if(T == entier)
-        return convertirEntier(temp1);
-    else if(T == rationnel)
-        {
-        Rationnel* n = convertirRationnel(temp1);
-        n->simplifier();
-        return n;
-        }
-    else
-        return temp1;
-}
-Constante* racine(Constante*a, const Type& T)
-{
-    Reel* temp1 = convertirReel(a);
-
-    temp1->setVal(sqrt(temp1->getVal()));
-
-    if(T == entier)
-        return convertirEntier(temp1);
-    else if(T == rationnel)
-        {
-        Rationnel* n = convertirRationnel(temp1);
-        n->simplifier();
-        return n;
-        }
-    else
-        return temp1;
-}
-Constante* carre(Constante*a, const Type& T, const Type& Tcomplexe)
-{
-    return multiplication(T, Tcomplexe, a, a);
-}
-Constante* cube(Constante*a, const Type& T, const Type& Tcomplexe)
-{
-    return multiplication(T, Tcomplexe, a, carre(a, T, Tcomplexe));
-}
-Constante* inverse(Constante* a, const Type& T)
-{
-    if(T == entier)
+    if (!isExpression(a->getChaine()))
     {
         Reel* temp = convertirReel(a);
-        temp->setVal(1 / temp->getVal());
-        return convertirEntier(temp);
+            temp->setVal(tanh(temp->getVal()));
+        return temp;
     }
-    else if(T == rationnel)
+    else
     {
-        Rationnel* temp = convertirRationnel(a);
-        int i = temp->getNum()->getVal();
-        temp->getNum()->setVal(temp->getDen()->getVal());
-        temp->getDen()->setVal(i);
-        temp->simplifier();
-        return temp;
-    }
-    else{
-        Reel* temp = convertirReel(a);
-        temp->setVal(1/temp->getVal());
-        return temp;
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " tanh'");
     }
 }
-Constante* signe(Constante*a, const Type& T, const Type& Tcomplexe)
+
+
+Constante* factorielle(Constante* a)
 {
-    if(T == entier)
+    if (!isExpression(a->getChaine()))
     {
         Entier* temp = convertirEntier(a);
-        temp->setVal(-1 * temp->getVal());
-        return temp;
-    }
-    else if(T == rationnel)
-    {
-        Rationnel* temp = convertirRationnel(a);
-        temp->getNum()->setVal(-1 * temp->getNum()->getVal());
-        return temp;
-    }
-    else if(T == reel)
-    {
-        Reel* temp = convertirReel(a);
-        temp->setVal(-1 * temp->getVal());
+
+        int n = temp->getVal();
+        if(n < 0) return temp;
+        int accu = 1;
+
+        while(n != 0)
+        {
+            accu *= n;
+            n -= 1;
+        }
+
+        temp->setVal(accu);
         return temp;
     }
     else
     {
-        Complexe* temp = convertirComplexe(a, Tcomplexe);
-        temp->setReel(signe(temp->getReel(), Tcomplexe, Tcomplexe));
-        temp->setIm(signe(temp->getIm(), Tcomplexe, Tcomplexe));
-        return temp;
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " fact'");
+    }
+}
+
+
+Constante* logarithme(Constante* a, const Type& T)
+{
+    if (!isExpression(a->getChaine()))
+    {
+        Reel* temp1 = convertirReel(a);
+
+        temp1->setVal(log10(temp1->getVal()));
+
+        if(T == entier)
+            return convertirEntier(temp1);
+        else if(T == rationnel)
+            return convertirRationnel(temp1);
+        else
+            return temp1;
+    }
+    else
+    {
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " log'");
+    }
+}
+
+
+Constante* logarithmeN(Constante*a, const Type& T)
+{
+    if (!isExpression(a->getChaine()))
+    {
+        Reel* temp1 = convertirReel(a);
+
+        temp1->setVal(log(temp1->getVal()));
+
+        if(T == entier)
+            return convertirEntier(temp1);
+        else if(T == rationnel)
+            {
+            Rationnel* n = convertirRationnel(temp1);
+            n->simplifier();
+            return n;
+            }
+        else
+            return temp1;
+    }
+    else
+    {
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " ln'");
+    }
+}
+
+
+Constante* racine(Constante*a, const Type& T)
+{
+    if (!isExpression(a->getChaine()))
+    {
+        Reel* temp1 = convertirReel(a);
+
+        temp1->setVal(sqrt(temp1->getVal()));
+
+        if(T == entier)
+            return convertirEntier(temp1);
+        else if(T == rationnel)
+            {
+            Rationnel* n = convertirRationnel(temp1);
+            n->simplifier();
+            return n;
+            }
+        else
+            return temp1;
+    }
+    else
+    {
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " sqrt'");
+    }
+}
+
+
+Constante* carre(Constante*a, const Type& T, const Type& Tcomplexe)
+{
+    if (!isExpression(a->getChaine()))
+    {
+        return multiplication(T, Tcomplexe, a, a);
+    }
+    else
+    {
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " sqr'");
+    }
+}
+
+
+Constante* cube(Constante*a, const Type& T, const Type& Tcomplexe)
+{
+    if (!isExpression(a->getChaine()))
+    {
+        return multiplication(T, Tcomplexe, a, carre(a, T, Tcomplexe));
+    }
+    else
+    {
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " cube'");
+    }
+}
+
+
+Constante* inverse(Constante* a, const Type& T)
+{
+   if (!isExpression(a->getChaine()))
+    {
+        if(T == entier)
+        {
+            Reel* temp = convertirReel(a);
+            temp->setVal(1 / temp->getVal());
+            return convertirEntier(temp);
+        }
+        else if(T == rationnel)
+        {
+            Rationnel* temp = convertirRationnel(a);
+            int i = temp->getNum()->getVal();
+            temp->getNum()->setVal(temp->getDen()->getVal());
+            temp->getDen()->setVal(i);
+            temp->simplifier();
+            return temp;
+        }
+        else{
+            Reel* temp = convertirReel(a);
+            temp->setVal(1/temp->getVal());
+            return temp;
+        }
+    }
+    else
+    {
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " inv'");
+    }
+}
+
+
+
+Constante* signe(Constante*a, const Type& T, const Type& Tcomplexe)
+{
+    if (!isExpression(a->getChaine()))
+    {
+        if(T == entier)
+        {
+            Entier* temp = convertirEntier(a);
+            temp->setVal(-1 * temp->getVal());
+            return temp;
+        }
+        else if(T == rationnel)
+        {
+            Rationnel* temp = convertirRationnel(a);
+            temp->getNum()->setVal(-1 * temp->getNum()->getVal());
+            return temp;
+        }
+        else if(T == reel)
+        {
+            Reel* temp = convertirReel(a);
+            temp->setVal(-1 * temp->getVal());
+            return temp;
+        }
+        else
+        {
+            Complexe* temp = convertirComplexe(a, Tcomplexe);
+            temp->setReel(signe(temp->getReel(), Tcomplexe, Tcomplexe));
+            temp->setIm(signe(temp->getIm(), Tcomplexe, Tcomplexe));
+            return temp;
+        }
+    }
+    else
+    {
+        string s1 = a->getChaine();
+        s1.erase(s1.length()-1,1);
+
+       return new Expression(s1 + " sign'");
     }
 }
 

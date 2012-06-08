@@ -130,13 +130,16 @@ bool isExpression(const std::string& s)
     else return false;
 }
 
-bool operateur(const string& s)
+bool operateur_binaire(const string& s)
 {
-    if ((s=="+") || (s=="-") || (s=="*") || (s=="/"))
-    return true;
-    else return false;
+    return ((s=="+") || (s=="-") || (s=="*") || (s=="/") || (s=="pow") || (s=="mod"));
 }
 
+bool operateur_unaire(const std::string &s)
+{
+    return ((s == "cos") || (s=="sin") || (s=="tan") || (s=="cosh") || (s=="sinh") || (s=="tanh") || (s=="sqr") ||
+            (s=="sqrt") || (s=="inv") || (s=="sign") || (s=="cube") || (s=="ln") || (s=="log") || (s=="factn")) ;
+}
 
 
 bool isEntier(const string& s)
@@ -343,7 +346,13 @@ void MainWindow::on_pushButton_DIV_clicked()
 }
 void MainWindow::on_pushButton_COS_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "cos";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
            P.ajouterPile(cosinus(P.extrairePile(), ui->radioButton->isChecked()));
            affichePile();
@@ -351,7 +360,13 @@ void MainWindow::on_pushButton_COS_clicked()
 }
 void MainWindow::on_pushButton_COSH_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "cosh";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
            P.ajouterPile(cosinush(P.extrairePile()));
            affichePile();
@@ -359,7 +374,13 @@ void MainWindow::on_pushButton_COSH_clicked()
 }
 void MainWindow::on_pushButton_SIN_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "sin";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
            P.ajouterPile(sinus(P.extrairePile(), ui->radioButton->isChecked()));
            affichePile();
@@ -367,7 +388,13 @@ void MainWindow::on_pushButton_SIN_clicked()
 }
 void MainWindow::on_pushButton_SINH_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "sinh";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
            P.ajouterPile(sinush(P.extrairePile()));
            affichePile();
@@ -375,7 +402,13 @@ void MainWindow::on_pushButton_SINH_clicked()
 }
 void MainWindow::on_pushButton_TAN_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "tan";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
            P.ajouterPile(tangente(P.extrairePile(), ui->radioButton->isChecked()));
            affichePile();
@@ -383,7 +416,13 @@ void MainWindow::on_pushButton_TAN_clicked()
 }
 void MainWindow::on_pushButton_TANH_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "tanh";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
            P.ajouterPile(tangenteh(P.extrairePile()));
            affichePile();
@@ -391,7 +430,13 @@ void MainWindow::on_pushButton_TANH_clicked()
 }
 void MainWindow::on_pushButton_MOD_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 2)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "mod";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 2)
     {
            P.ajouterPile(modulo(P.extrairePile(), P.extrairePile()));
            affichePile();
@@ -399,7 +444,13 @@ void MainWindow::on_pushButton_MOD_clicked()
 }
 void MainWindow::on_pushButton_FACT_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "fact";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
            P.ajouterPile(factorielle(P.extrairePile()));
            affichePile();
@@ -407,7 +458,13 @@ void MainWindow::on_pushButton_FACT_clicked()
 }
 void MainWindow::on_pushButton_POW_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 2 && typeMode != complexe)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "pow";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 2 && typeMode != complexe)
     {
            P.ajouterPile(puissance(P.extrairePile(), P.extrairePile(), typeMode));
            affichePile();
@@ -415,7 +472,13 @@ void MainWindow::on_pushButton_POW_clicked()
 }
 void MainWindow::on_pushButton_LN_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "ln";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
     {
            P.ajouterPile(logarithmeN(P.extrairePile(), typeMode));
            affichePile();
@@ -423,7 +486,13 @@ void MainWindow::on_pushButton_LN_clicked()
 }
 void MainWindow::on_pushButton_LOG_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "log";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
     {
            P.ajouterPile(logarithme(P.extrairePile(), typeMode));
            affichePile();
@@ -431,7 +500,13 @@ void MainWindow::on_pushButton_LOG_clicked()
 }
 void MainWindow::on_pushButton_SQRT_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "sqrt";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
     {
            P.ajouterPile(racine(P.extrairePile(), typeMode));
            affichePile();
@@ -439,7 +514,13 @@ void MainWindow::on_pushButton_SQRT_clicked()
 }
 void MainWindow::on_pushButton_SQR_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "sqr";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
            P.ajouterPile(carre(P.extrairePile(), typeMode, typeComplexe));
            affichePile();
@@ -447,7 +528,13 @@ void MainWindow::on_pushButton_SQR_clicked()
 }
 void MainWindow::on_pushButton_CUBE_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "cube";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
            P.ajouterPile(cube(P.extrairePile(), typeMode, typeComplexe));
            affichePile();
@@ -455,7 +542,13 @@ void MainWindow::on_pushButton_CUBE_clicked()
 }
 void MainWindow::on_pushButton_INV_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "inv";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
     {
            P.ajouterPile(inverse(P.extrairePile(), typeMode));
            affichePile();
@@ -463,7 +556,13 @@ void MainWindow::on_pushButton_INV_clicked()
 }
 void MainWindow::on_pushButton_SIGN_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
+    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    {
+        QString texte = ui->textEdit->toPlainText() + "sign";
+        ui->textEdit->clear();
+        ui->textEdit->setText(texte);
+    }
+    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
            P.ajouterPile(signe(P.extrairePile(), typeMode, typeComplexe));
            affichePile();
@@ -563,7 +662,7 @@ void MainWindow::on_pushButton_EVAL_clicked()
             }
             else
             {
-                ui->textEdit->setText("test");
+                ui->textEdit->setText(QString::fromStdString(P.extrairePile()->getChaine()));
             }
         }
     }
@@ -764,7 +863,7 @@ void MainWindow::affichePile()
         ui->listWidget->clear();
 }
 
-
+/******************************************** EVALUATION D'UNE EXPRESSION *************************************************************************************/
 
 void MainWindow::evaluer(Expression* expr)
 {
@@ -790,8 +889,8 @@ void MainWindow::evaluer(Expression* expr)
                 /* si le caractère suivant est un espace ou une apostrophe
                 Alors s contient un nombre/opérateur complet*/
             {
-                //ui->textEdit->setText("aaaaaaaaaa");
-                if (operateur(s))
+
+                if (operateur_binaire(s))
                 {
                     if (P.getTaille() < 2)
                     {
@@ -803,44 +902,87 @@ void MainWindow::evaluer(Expression* expr)
                         Constante* temp1 = P.extrairePile();
                         Constante* temp2 = P.extrairePile();
 
-                        if (!isExpression(temp1->getChaine()) && !isExpression(temp2->getChaine()))
-                        {
-                            /*Si les deux constantes dépilées ne sont pas des expressions*/
-                            if (s=="+")
-                            {
-                                P.ajouterPile(addition(typeMode, typeComplexe, temp1, temp2));
-                            }
-                            else if (s=="-")
-                            {
-                                P.ajouterPile(soustraction(typeMode, typeComplexe, temp1, temp2));
-                            }
-                            else if (s=="*")
-                            {
-                                P.ajouterPile(multiplication(typeMode, typeComplexe, temp1, temp2));
-                            }
-                            else if (s=="/")
-                            {
-                                P.ajouterPile(division(typeMode, typeComplexe, temp1, temp2));
-                            }
-                        }
-                        else if ((isExpression(temp1->getChaine())) && isExpression(temp2->getChaine()))
-                        {
-                            /* Si les deux constantes dépilées sont des expressions
-                            On renvoie une expression de la forme 'temp2 temp1 operateur'*/
-                            std::string s1 = temp1->getChaine();
-                            std::string s2 = temp2->getChaine();
+                        if (s=="+")
+                            P.ajouterPile(addition(typeMode, typeComplexe, temp1, temp2));
 
-                            s2.erase(s2.length()-1,1);
-                            s1.erase(0,1);
-                            s1.erase(s1.length()-1,1);
-                            //on a supprimé les apostrophes inutiles
+                        else if (s=="-")
+                             P.ajouterPile(soustraction(typeMode, typeComplexe, temp1, temp2));
 
-                            P.ajouterPile(FactoryConst::creerConstante(s2 + " " + s1 + " " + s + "'",expression));
+                        else if (s=="*")
+                             P.ajouterPile(multiplication(typeMode, typeComplexe, temp1, temp2));
 
-                        }
+                        else if (s=="/")
+                             P.ajouterPile(division(typeMode, typeComplexe, temp1, temp2));
+
+                        else if (s=="mod")
+                             P.ajouterPile(modulo(temp1,temp2));
+
+                        else if (s=="pow")
+                            P.ajouterPile(puissance(temp1,temp2,typeMode));
+
 
                     }
-                } //fin du if(operateur(s))
+                } //fin du if(operateur_binaire(s))
+
+
+                else if (operateur_unaire(s))
+                {
+                    /* Si s est un opérateur unaire, on a besoin de dépiler une seule constante */
+                    if (P.getTaille() < 1)
+                    {
+                        ui->textEdit->setText(QString::fromStdString("'" + chaine));
+
+                    }
+                    else
+                    {
+                        Constante* temp1 = P.extrairePile();
+
+                        if (s=="cos")
+                            P.ajouterPile(cosinus(temp1,ui->radioButton->isChecked()));
+
+                        else if (s=="sin")
+                            P.ajouterPile(sinus(temp1,ui->radioButton->isChecked()));
+
+                        else if (s=="tan")
+                            P.ajouterPile(tangente(temp1,ui->radioButton->isChecked()));
+
+                        else if (s=="cosh")
+                            P.ajouterPile(cosinush(temp1));
+
+                        else if (s=="sinh")
+                            P.ajouterPile(sinush(temp1));
+
+                        else if (s=="tanh")
+                            P.ajouterPile(tangenteh(temp1));
+
+                        else if (s=="ln")
+                            P.ajouterPile(logarithmeN(temp1,typeMode));
+
+                        else if (s=="log")
+                            P.ajouterPile(logarithme(temp1,typeMode));
+
+                        else if (s=="sqr")
+                            P.ajouterPile(carre(temp1,typeMode,typeComplexe));
+
+                        else if (s=="sqrt")
+                            P.ajouterPile(racine(temp1,typeMode));
+
+                        else if (s=="cube")
+                            P.ajouterPile(cube(temp1,typeMode,typeComplexe));
+
+                        else if (s=="fact")
+                            P.ajouterPile(factorielle(convertirEntier(temp1)));
+
+                        else if (s=="sign")
+                            P.ajouterPile(signe(temp1,typeMode,typeComplexe));
+
+                        else if (s=="inv")
+                            P.ajouterPile(inverse(temp1,typeMode));
+
+
+                    }
+                } //fin if opérateur unaire
+
 
                 else
                 {

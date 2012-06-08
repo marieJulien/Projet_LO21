@@ -88,7 +88,8 @@ bool isReel(const std::string& s); //permet de déterminer si le contenu de s es
 bool isRationnel(const std::string& s); //permet de déterminer si le contenu de s est un rationnel
 bool isComplexe(const std::string& s); //permet de déterminer si le contenu de s est un complexe
 bool isExpression(const std::string& s); //permet de déterminer si s est une expression
-bool operateur(const std::string& s); //permet de déterminer si s est un opérateur
+bool operateur_binaire(const std::string& s); //permet de déterminer si s est un opérateur binaire (+,-,* ...)
+bool operateur_unaire(const std::string& s); //permet de déterminer si s est un opérateur unaire (ex : cos, sin ...)
 bool estPresentChar(const char& c, const QString& s); //permet de déterminer si un caractère est présent dans s
 bool estVide(const QString& s); //permet de déterminer si s est vide
 int nbOccurences(const char& c, const QString& s); //permet de connaitre le nombre d'occurence de c dans s
