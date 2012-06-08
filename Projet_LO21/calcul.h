@@ -4,6 +4,7 @@
 #include <iostream>
 #include "complexe.h"
 #include <cmath>
+#include "mainwindow.h"
 
 Entier* convertirEntier(Constante* a);
 Rationnel* convertirRationnel(Constante* a);

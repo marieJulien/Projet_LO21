@@ -92,103 +92,223 @@ Complexe* convertirComplexe(Constante* a, const Type& T)
 
 Constante* addition(const Type& Mode, const Type& Tcomplexe, Constante* a, Constante* b)
 {
-    switch(Mode)
+    if ((!isExpression(a->getChaine())) && (!isExpression(b->getChaine())))
     {
-        case entier:
-            return new Entier((*convertirEntier(a) + *convertirEntier(b)).getChaine());
-            break;
-        case rationnel:
+        switch(Mode)
         {
-            Rationnel* n= new Rationnel((*convertirRationnel(a) + *convertirRationnel(b)).getChaine());
-            n->simplifier();
-            return n;
-            break;
+            case entier:
+                return new Entier((*convertirEntier(a) + *convertirEntier(b)).getChaine());
+                break;
+            case rationnel:
+            {
+                Rationnel* n= new Rationnel((*convertirRationnel(a) + *convertirRationnel(b)).getChaine());
+                n->simplifier();
+                return n;
+                break;
+            }
+            case reel:
+                return new Reel((*convertirReel(a) + *convertirReel(b)).getChaine());
+                break;
+            case complexe:
+                return new Complexe((*convertirComplexe(a, Tcomplexe) + *convertirComplexe(b, Tcomplexe)).getChaine(), Tcomplexe);
+                break;
+            default:
+                return NULL;
+                break;
         }
-        case reel:
-            return new Reel((*convertirReel(a) + *convertirReel(b)).getChaine());
-            break;
-        case complexe:
-            return new Complexe((*convertirComplexe(a, Tcomplexe) + *convertirComplexe(b, Tcomplexe)).getChaine(), Tcomplexe);
-            break;
-        default:
-            return NULL;
-            break;
+    }
+    else if (!isExpression(a->getChaine()))
+    {
+        /*Si seulement b est une expression*/
+        string s = b->getChaine();
+        s.erase(0,1);
+        s.erase(s.length()-1,1);
+        return new Expression("'" + a->getChaine() + " " + s + " +'");
+    }
+    else if (!isExpression(b->getChaine()))
+    {
+        /* Seulement a est une expression */
+        string s = a->getChaine();
+        s.erase(0,1);
+        s.erase(s.length()-1,1);
+        return new Expression("'" + s + " " + b->getChaine() + " +'");
+    }
+    else
+    {
+        /*Les deux sont des expressions*/
+        string sa = a->getChaine();
+        string sb = b->getChaine();
+        sa.erase(sa.length()-1,1);
+        sb.erase(0,1);
+        sb.erase(sb.length()-1,1);
+        return new Expression(sa + " " + sb + " +'");
     }
 }
+
+
 Constante* soustraction(const Type& Mode, const Type& Tcomplexe, Constante* a, Constante* b)
 {
-    switch(Mode)
+    if ((!isExpression(a->getChaine())) && (!isExpression(b->getChaine())))
     {
-        case entier:
-            return new Entier((*convertirEntier(b) - *convertirEntier(a)).getChaine());
-            break;
-        case rationnel:
-            {
-            Rationnel* n= new Rationnel((*convertirRationnel(a) - *convertirRationnel(b)).getChaine());
-            n->simplifier();
-            return n;
-            break;
+        switch(Mode)
+        {
+            case entier:
+                return new Entier((*convertirEntier(b) - *convertirEntier(a)).getChaine());
+                break;
+            case rationnel:
+                {
+                Rationnel* n= new Rationnel((*convertirRationnel(a) - *convertirRationnel(b)).getChaine());
+                n->simplifier();
+                return n;
+                break;
+            }
+            case reel:
+                return new Reel((*convertirReel(b) - *convertirReel(a)).getChaine());
+                break;
+            case complexe:
+                return new Complexe((*convertirComplexe(b, Tcomplexe) - *convertirComplexe(a, Tcomplexe)).getChaine(), Tcomplexe);
+                break;
+            default:
+                return NULL;
+                break;
         }
-        case reel:
-            return new Reel((*convertirReel(b) - *convertirReel(a)).getChaine());
-            break;
-        case complexe:
-            return new Complexe((*convertirComplexe(b, Tcomplexe) - *convertirComplexe(a, Tcomplexe)).getChaine(), Tcomplexe);
-            break;
-        default:
-            return NULL;
-            break;
+    }
+    else if (!isExpression(a->getChaine()))
+    {
+        /*Si seulement b est une expression*/
+        string s = b->getChaine();
+        s.erase(0,1);
+        s.erase(s.length()-1,1);
+        return new Expression("'" + a->getChaine() + " " + s + " -'");
+    }
+    else if (!isExpression(b->getChaine()))
+    {
+        /* Seulement a est une expression */
+        string s = a->getChaine();
+        s.erase(0,1);
+        s.erase(s.length()-1,1);
+        return new Expression("'" + s + " " + b->getChaine() + " -'");
+    }
+    else
+    {
+        /*Les deux sont des expressions*/
+        string sa = a->getChaine();
+        string sb = b->getChaine();
+        sa.erase(sa.length()-1,1);
+        sb.erase(0,1);
+        sb.erase(sb.length()-1,1);
+        return new Expression(sa + " " + sb + " -'");
     }
 }
 
 Constante* multiplication(const Type& Mode, const Type& Tcomplexe, Constante* a, Constante* b)
 {
-    switch(Mode)
+    if ((!isExpression(a->getChaine())) && (!isExpression(b->getChaine())))
     {
-        case entier:
-            return new Entier((*convertirEntier(a) * *convertirEntier(b)).getChaine());
-            break;
-        case rationnel:
-            {
-            Rationnel* n= new Rationnel((*convertirRationnel(a) * *convertirRationnel(b)).getChaine());
-            n->simplifier();
-            return n;
-            break;
+        switch(Mode)
+        {
+            case entier:
+                return new Entier((*convertirEntier(a) * *convertirEntier(b)).getChaine());
+                break;
+            case rationnel:
+                {
+                Rationnel* n= new Rationnel((*convertirRationnel(a) * *convertirRationnel(b)).getChaine());
+                n->simplifier();
+                return n;
+                break;
+            }
+            case reel:
+                return new Reel((*convertirReel(a) * *convertirReel(b)).getChaine());
+                break;
+            case complexe:
+                return new Complexe((*convertirComplexe(a, Tcomplexe) * *convertirComplexe(b, Tcomplexe)).getChaine(), Tcomplexe);
+                break;
+            default:
+                return NULL;
+                break;
         }
-        case reel:
-            return new Reel((*convertirReel(a) * *convertirReel(b)).getChaine());
-            break;
-        case complexe:
-            return new Complexe((*convertirComplexe(a, Tcomplexe) * *convertirComplexe(b, Tcomplexe)).getChaine(), Tcomplexe);
-            break;
-        default:
-            return NULL;
-            break;
+    }
+    else if (!isExpression(a->getChaine()))
+    {
+        /*Si seulement b est une expression*/
+        string s = b->getChaine();
+        s.erase(0,1);
+        s.erase(s.length()-1,1);
+        return new Expression("'" + a->getChaine() + " " + s + " *'");
+    }
+    else if (!isExpression(b->getChaine()))
+    {
+        /* Seulement a est une expression */
+        string s = a->getChaine();
+        s.erase(0,1);
+        s.erase(s.length()-1,1);
+        return new Expression("'" + s + " " + b->getChaine() + " *'");
+    }
+    else
+    {
+        /*Les deux sont des expressions*/
+        string sa = a->getChaine();
+        string sb = b->getChaine();
+        sa.erase(sa.length()-1,1);
+        sb.erase(0,1);
+        sb.erase(sb.length()-1,1);
+        return new Expression(sa + " " + sb + " *'");
     }
 }
 
 Constante* division(const Type& Mode, const Type& Tcomplexe, Constante* a, Constante* b)
 {
-    switch(Mode)
+    if ((!isExpression(a->getChaine())) && (!isExpression(b->getChaine())))
     {
-        case entier:
-            return new Entier((*convertirEntier(a) / *convertirEntier(b)).getChaine());
-            break;
-        case rationnel:
-            {
-            Rationnel* n= new Rationnel((*convertirRationnel(a) / *convertirRationnel(b)).getChaine());
-            n->simplifier();
-            return n;
-            break;
+        switch(Mode)
+        {
+            case entier:
+                return new Entier((*convertirEntier(a) / *convertirEntier(b)).getChaine());
+                break;
+            case rationnel:
+                {
+                Rationnel* n= new Rationnel((*convertirRationnel(a) / *convertirRationnel(b)).getChaine());
+                n->simplifier();
+                return n;
+                break;
+            }
+            case reel:
+                return new Reel((*convertirReel(a) / *convertirReel(b)).getChaine());
+                break;
+            default:
+                return NULL;
+                break;
         }
-        case reel:
-            return new Reel((*convertirReel(a) / *convertirReel(b)).getChaine());
-            break;
-        default:
-            return NULL;
-            break;
+    }
+    else if (!isExpression(a->getChaine()))
+    {
+        /*Si seulement b est une expression*/
+        string s = b->getChaine();
+        s.erase(0,1);
+        s.erase(s.length()-1,1);
+        return new Expression("'" + a->getChaine() + " " + s + " /'");
+    }
+    else if (!isExpression(b->getChaine()))
+    {
+        /* Seulement a est une expression */
+        string s = a->getChaine();
+        s.erase(0,1);
+        s.erase(s.length()-1,1);
+        return new Expression("'" + s + " " + b->getChaine() + " /'");
+    }
+    else
+    {
+        /*Les deux sont des expressions*/
+        string sa = a->getChaine();
+        string sb = b->getChaine();
+        sa.erase(sa.length()-1,1);
+        sb.erase(0,1);
+        sb.erase(sb.length()-1,1);
+        return new Expression(sa + " " + sb + " /'");
     }
 }
+
+
 Reel* cosinus(Constante* a, bool degre)
 {
     Reel* temp = convertirReel(a);
