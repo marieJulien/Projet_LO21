@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QUndoStack>
+#include <QUndoCommand>
 #include <QtGui>
 #include <string>
 #include <cctype>
@@ -9,7 +11,6 @@
 #include "factoryconst.h"
 #include "pile.h"
 #include "calcul.h"
-#include "expression.h"
 
 namespace Ui {
     class MainWindow;
@@ -22,6 +23,12 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void ajouterTexte(const QString& s);
+    void effacerTexte();
+
+signals:
+    void undoC();
+    void redoC();
 
 private slots:
     //fonctions de traitement des boutons
@@ -43,9 +50,10 @@ private slots:
     void on_pushButton_CLEAR_clicked();
     void on_pushButton_DROP_clicked();
     void on_pushButton_EVAL_clicked();
+    void on_pushButton_Virgule_clicked();
     void on_pushButton_Enter_clicked();
     void on_pushButton_Annuler_clicked();
-    //void on_pushButton_Retablir_clicked();
+    void on_pushButton_Retablir_clicked();
     void on_pushButton_COS_clicked();
     void on_pushButton_COSH_clicked();
     void on_pushButton_SIN_clicked();
@@ -63,8 +71,8 @@ private slots:
     void on_pushButton_INV_clicked();
     void on_pushButton_SIGN_clicked();
 
-    void afficheClavier(); //gère l'affichage du clavier
     void effacer(); //gère le raccourcis avec le bouton backspace
+    void afficheClavier(); //gère l'affichage du clavier
     void changeMode(int m); //gère le changement de mode d'utilisation
     void useComplexe(); //gère l'utilisation de Complexe
     void ecrireComplexe(); //gère l'affichage su symbole représentant les complexes
@@ -76,11 +84,66 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QUndoStack *undoStack;
     QString* contenuList[20]; //Stocke les QString à afficher dans le ListWidget
     Type typeMode; //permet de savoir quelle Constante on désire
     Type typeComplexe; //Permet de connaitre le type de complexe désiré
     void affichePile(); //Affiche le contenu de la pile
 };
+
+class AddTexte : public QUndoCommand
+ {
+ public:
+     AddTexte(std::string s, MainWindow* w, QUndoCommand *parent = 0);
+
+     void undo();
+     void redo();
+
+ private:
+     int taille;
+     QString chaine;
+     MainWindow* ptr;
+ };
+
+class DelTexte : public QUndoCommand
+ {
+ public:
+     DelTexte(std::string s, MainWindow* w, QUndoCommand *parent = 0);
+
+     void undo();
+     void redo();
+
+ private:
+     QString chaine;
+     MainWindow* ptr;
+ };
+
+class AddPile : public QUndoCommand
+ {
+ public:
+     AddPile(Constante* c1, QUndoCommand *parent = 0);
+
+     void undo();
+     void redo();
+
+ private:
+     Constante* a;
+ };
+
+class DelPile : public QUndoCommand
+ {
+ public:
+     DelPile(int i, QUndoCommand *parent = 0);
+     Constante* getA() {return a;}
+     Constante* getB() {return b;}
+     void undo();
+     void redo();
+
+ private:
+     int nbConst;
+     Constante* a;
+     Constante* b;
+ };
 
 
 bool isEntier(const std::string& s); //permet de déterminer si le contenu de s est un entier
@@ -94,7 +157,5 @@ bool estPresentChar(const char& c, const QString& s); //permet de déterminer si
 bool estVide(const QString& s); //permet de déterminer si s est vide
 int nbOccurences(const char& c, const QString& s); //permet de connaitre le nombre d'occurence de c dans s
 Type typeTexte(const QString& s); //permet de connaitre le type de Constante contenue dans le QString (fait appel aux is_(s)
-
-
 
 #endif // MAINWINDOW_H

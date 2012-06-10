@@ -3,8 +3,15 @@
 
 #include <iostream>
 #include "complexe.h"
-#include <cmath>
+#include "reel.h"
 #include "mainwindow.h"
+#include <cmath>
+
+class Reel;
+class Entier;
+class Rationnel;
+class Complexe;
+class Expression;
 
 Entier* convertirEntier(Constante* a);
 Rationnel* convertirRationnel(Constante* a);

@@ -32,11 +32,11 @@ private:
     Entier* denominateur;
     virtual void construireConstante(const std::string&);
 };
+
 Rationnel operator+(Rationnel const& a, Rationnel const& b);
 Rationnel operator-(Rationnel const& a, Rationnel const& b);
 Rationnel operator*(Rationnel const& a, Rationnel const& b);
 Rationnel operator/(Rationnel const& a, Rationnel const& b);
-
 int pgcd(int a, int b);
 
 #endif // RATIONNEL_H

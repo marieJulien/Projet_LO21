@@ -131,7 +131,6 @@ Rationnel operator/(Rationnel const& a, Rationnel const& b)
     temp /= b;
     return temp;
 }
-
 int pgcd(int a, int b)
 {
     while (b != 0)
@@ -147,23 +146,23 @@ int pgcd(int a, int b)
 void Rationnel::simplifier()
 {
 
-	int tmp2 = numerateur->getVal();
-	int tmp3 = denominateur->getVal();
+        int tmp2 = numerateur->getVal();
+        int tmp3 = denominateur->getVal();
     if (tmp2 < 0) tmp2*=-1;
-	if (tmp3 < 0) tmp3*=-1;
+        if (tmp3 < 0) tmp3*=-1;
 
-	int tmp = pgcd(tmp2, tmp3);
+        int tmp = pgcd(tmp2, tmp3);
 
-	if (tmp != 1)
-	{
-		numerateur->setVal(numerateur->getVal() / tmp);
-		denominateur->setVal(denominateur->getVal() / tmp);
-	}
+        if (tmp != 1)
+        {
+                numerateur->setVal(numerateur->getVal() / tmp);
+                denominateur->setVal(denominateur->getVal() / tmp);
+        }
 
-	if (denominateur->getVal() < 0)
-	{
-	denominateur->setVal(denominateur->getVal() * -1);
-	numerateur->setVal(numerateur->getVal() * -1);
-	}
+        if (denominateur->getVal() < 0)
+        {
+        denominateur->setVal(denominateur->getVal() * -1);
+        numerateur->setVal(numerateur->getVal() * -1);
+        }
 
 }

@@ -1,4 +1,5 @@
 #include "factoryconst.h"
+#include "factoryconst.h"
 #include "expression.h"
 
 /*méthode static qui permet de créer et renvoyer un pointeur vers la Constante de type T,

@@ -1,4 +1,5 @@
 #include "calcul.h"
+#include "mainwindow.h"
 
 using namespace std;
 
@@ -755,4 +756,3 @@ Constante* signe(Constante*a, const Type& T, const Type& Tcomplexe)
        return new Expression(s1 + " sign'");
     }
 }
-

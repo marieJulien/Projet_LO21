@@ -17,7 +17,7 @@ public:
     bool estVide() const {return p.empty();} //test si la Pile est vide
     int getTaille() const {return p.size();} //renvoi la taille de la pile
     void viderPile(); //Vide la Pile
-    void dupliquer(); //Duplique le premier élément de la Pile
+    Constante* dupliquer(); //Duplique le premier élément de la Pile
 
 protected:
     Pile();

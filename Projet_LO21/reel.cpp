@@ -12,13 +12,25 @@ std::string Reel::getChaine() const
 {
     stringstream ss;
     ss << valeur;
-
-    return ss.str();
+    string chaine = ss.str();
+    if (estPresentChar('.',QString::fromStdString(chaine)))
+    {
+        int i = chaine.find_first_of('.');
+        chaine.replace(i,i,",");
+        return chaine;
+    }
+    else
+    {
+        return ss.str();
+    }
 }
 
 void Reel::construireConstante(const std::string& val)
 {
+
     valeur = atof(val.c_str());
+    genre = reel;
+
 }
 
 Reel::Reel(const std::string& val, const Type& T1, const Type& T2)

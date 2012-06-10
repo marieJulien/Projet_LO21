@@ -14,6 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setFixedSize(600, 334);
 
+    undoStack = new QUndoStack();
+
     for(int i = 0; i < 20; i++)
         contenuList[i] = NULL;
 
@@ -36,15 +38,16 @@ MainWindow::MainWindow(QWidget *parent) :
     QShortcut* shortcutM = new QShortcut(QKeySequence("-"), this);
     QShortcut* shortcutF = new QShortcut(QKeySequence("*"), this);
     QShortcut* shortcutD = new QShortcut(QKeySequence("/"), this);
-    //QShortcut* shortcutEval = new QShortcut(QKeySequence("Ctrl+e"), this);
+    QShortcut* shortcutEval = new QShortcut(QKeySequence("Ctrl+e"), this);
     QShortcut* shortcutEnter = new QShortcut(QKeySequence(Qt::Key_Enter), this);
     QShortcut* shortcutReturn = new QShortcut(QKeySequence(Qt::Key_Return), this);
     QShortcut* shortcutAnnuler = new QShortcut(QKeySequence("Ctrl+z"), this);
-    //QShortcut* shortcutRetablir = new QShortcut(QKeySequence("Ctrl+y"), this);
+    QShortcut* shortcutRetablir = new QShortcut(QKeySequence("Ctrl+y"), this);
     QShortcut* shortcutEffacer = new QShortcut(QKeySequence("Backspace"), this);
     QShortcut* shortcut$ = new QShortcut(QKeySequence("$"), this);
     QShortcut* shortcutExpr = new QShortcut(QKeySequence("'"), this);
     QShortcut* shortcutVirgule = new QShortcut(QKeySequence(","), this);
+    QShortcut* shortcutPoint = new QShortcut(QKeySequence("."), this);
     QShortcut* shortcutClear = new QShortcut(QKeySequence("Ctrl+c"), this);
     QShortcut* shortcutEspace = new QShortcut(QKeySequence("Space"), this);
 
@@ -64,17 +67,23 @@ MainWindow::MainWindow(QWidget *parent) :
     QObject::connect(shortcutM, SIGNAL(activated()), this, SLOT(on_pushButton_Moins_clicked()));
     QObject::connect(shortcutF, SIGNAL(activated()), this, SLOT(on_pushButton_Mul_clicked()));
     QObject::connect(shortcutD, SIGNAL(activated()), this, SLOT(on_pushButton_DIV_clicked()));
-    //QObject::connect(shortcutEval, SIGNAL(activated()), this, SLOT(on_pushButton_EVAL_clicked()));
+    QObject::connect(shortcutEval, SIGNAL(activated()), this, SLOT(on_pushButton_EVAL_clicked()));
     QObject::connect(shortcutEnter, SIGNAL(activated()), this, SLOT(on_pushButton_Enter_clicked()));
     QObject::connect(shortcutReturn, SIGNAL(activated()), this, SLOT(on_pushButton_Enter_clicked()));
     QObject::connect(shortcutAnnuler, SIGNAL(activated()), this, SLOT(on_pushButton_Annuler_clicked()));
-    //QObject::connect(shortcutRetablir, SIGNAL(activated()), this, SLOT(on_pushButton_Retablir_clicked()));
+    QObject::connect(shortcutRetablir, SIGNAL(activated()), this, SLOT(on_pushButton_Retablir_clicked()));
     QObject::connect(shortcutEffacer, SIGNAL(activated()), this, SLOT(effacer()));
     QObject::connect(shortcut$, SIGNAL(activated()), this, SLOT(ecrireComplexe()));
     QObject::connect(shortcutExpr, SIGNAL(activated()), this, SLOT(ecrireExpression()));
     QObject::connect(shortcutVirgule, SIGNAL(activated()), this, SLOT(ecrireVirgule()));
+    QObject::connect(shortcutPoint, SIGNAL(activated()), this, SLOT(ecrireVirgule()));
     QObject::connect(shortcutClear, SIGNAL(activated()), this, SLOT(on_pushButton_CLEAR_clicked()));
     QObject::connect(shortcutEspace, SIGNAL(activated()), this, SLOT(ecrireEspace()));
+
+    //QObject::connect(ui->actionAnnuler, SIGNAL(triggered()), undoStack, SLOT(undo()));
+    QObject::connect(this, SIGNAL(undoC()), undoStack, SLOT(undo()));
+    //QObject::connect(ui->actionRetablir, SIGNAL(triggered()), undoStack, SLOT(redo()));
+    QObject::connect(this, SIGNAL(redoC()), undoStack, SLOT(redo()));
 
     //Connection des widgets avec les Slots modifiant l'affichage
 
@@ -122,14 +131,6 @@ int nbOccurences(const char& c, const QString& s)
     return i;
 
 }
-
-bool isExpression(const std::string& s)
-{
-    if ((s[0]==39) && (s[s.length()-1]==39))
-        return true;
-    else return false;
-}
-
 bool operateur_binaire(const string& s)
 {
     return ((s=="+") || (s=="-") || (s=="*") || (s=="/") || (s=="pow") || (s=="mod"));
@@ -140,8 +141,12 @@ bool operateur_unaire(const std::string &s)
     return ((s == "cos") || (s=="sin") || (s=="tan") || (s=="cosh") || (s=="sinh") || (s=="tanh") || (s=="sqr") ||
             (s=="sqrt") || (s=="inv") || (s=="sign") || (s=="cube") || (s=="ln") || (s=="log") || (s=="factn")) ;
 }
-
-
+bool isExpression(const std::string& s)
+{
+    if ((s[0]==39) && (s[s.length()-1]==39))
+        return true;
+    else return false;
+}
 bool isEntier(const string& s)
 {
     for(unsigned int i = 0; i < s.length(); i++)
@@ -225,80 +230,74 @@ Type typeTexte(const QString& s)
 
         return erreur;
 }
+void MainWindow::effacerTexte()
+{
+    if(!ui->textEdit->toPlainText().isEmpty()){
+        QString tmp = ui->textEdit->toPlainText();
+        int i = tmp.length();
+        ui->textEdit->setPlainText(tmp.left(i-1));
+    }
+}
+void MainWindow::ajouterTexte(const QString& s)
+{
+    QString texte = ui->textEdit->toPlainText() + s;
+    ui->textEdit->clear();
+    ui->textEdit->setText(texte);
+}
 
 //Définition des slots des raccourcis claviers
 
 void MainWindow::on_pushButton_0_clicked()
 {
-    QString texte = ui->textEdit->toPlainText() + "0";
-    ui->textEdit->clear();
-    ui->textEdit->setText(texte);
+    undoStack->push(new AddTexte("0", this));
 }
 void MainWindow::on_pushButton_1_clicked()
 {
-    QString texte = ui->textEdit->toPlainText() + "1";
-    ui->textEdit->clear();
-    ui->textEdit->setText(texte);
+    undoStack->push(new AddTexte("1", this));
 }
 void MainWindow::on_pushButton_2_clicked()
 {
-    QString texte = ui->textEdit->toPlainText() + "2";
-    ui->textEdit->clear();
-    ui->textEdit->setText(texte);
+    undoStack->push(new AddTexte("2", this));
 }
 void MainWindow::on_pushButton_3_clicked()
 {
-    QString texte = ui->textEdit->toPlainText() + "3";
-    ui->textEdit->clear();
-    ui->textEdit->setText(texte);
+    undoStack->push(new AddTexte("3", this));
 }
 void MainWindow::on_pushButton_4_clicked()
 {
-    QString texte = ui->textEdit->toPlainText() + "4";
-    ui->textEdit->clear();
-    ui->textEdit->setText(texte);
+    undoStack->push(new AddTexte("4", this));
 }
 void MainWindow::on_pushButton_5_clicked()
 {
-    QString texte = ui->textEdit->toPlainText() + "5";
-    ui->textEdit->clear();
-    ui->textEdit->setText(texte);
+    undoStack->push(new AddTexte("5", this));
 }
 void MainWindow::on_pushButton_6_clicked()
 {
-    QString texte = ui->textEdit->toPlainText() + "6";
-    ui->textEdit->clear();
-    ui->textEdit->setText(texte);
+    undoStack->push(new AddTexte("6", this));
 }
 void MainWindow::on_pushButton_7_clicked()
 {
-    QString texte = ui->textEdit->toPlainText() + "7";
-    ui->textEdit->clear();
-    ui->textEdit->setText(texte);
+    undoStack->push(new AddTexte("7", this));
 }
 void MainWindow::on_pushButton_8_clicked()
 {
-    QString texte = ui->textEdit->toPlainText() + "8";
-    ui->textEdit->clear();
-    ui->textEdit->setText(texte);
+    undoStack->push(new AddTexte("8", this));
 }
 void MainWindow::on_pushButton_9_clicked()
 {
-    QString texte = ui->textEdit->toPlainText() + "9";
-    ui->textEdit->clear();
-    ui->textEdit->setText(texte);
+    undoStack->push(new AddTexte("9", this));
 }
 void MainWindow::on_pushButton_Plus_clicked()
 {
     if(estPresentChar('\'', ui->textEdit->toPlainText()))
     {
-        QString texte = ui->textEdit->toPlainText() + "+";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
+        undoStack->push(new AddTexte("+", this));
     }
     else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 2)
     {
-           P.ajouterPile(addition(typeMode, typeComplexe, P.extrairePile(), P.extrairePile()));
+           DelPile* del = new DelPile(2);
+           undoStack->push(del);
+           undoStack->push(new AddPile(addition(typeMode, typeComplexe, del->getA(), del->getB())));
            affichePile();
     }
 }
@@ -306,13 +305,13 @@ void MainWindow::on_pushButton_Moins_clicked()
 {
     if(estPresentChar('\'', ui->textEdit->toPlainText()) && !estVide(ui->textEdit->toPlainText()))
     {
-    QString texte = ui->textEdit->toPlainText() + "-";
-    ui->textEdit->clear();
-    ui->textEdit->setText(texte);
+        undoStack->push(new AddTexte("-", this));
     }
     else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 2)
     {
-           P.ajouterPile(soustraction(typeMode, typeComplexe, P.extrairePile(), P.extrairePile()));
+        DelPile* del = new DelPile(2);
+        undoStack->push(del);
+        undoStack->push(new AddPile(soustraction(typeMode, typeComplexe, del->getA(), del->getB())));
            affichePile();
     }
 }
@@ -320,13 +319,13 @@ void MainWindow::on_pushButton_Mul_clicked()
 {
     if(estPresentChar('\'', ui->textEdit->toPlainText()) && !estVide(ui->textEdit->toPlainText()))
     {
-    QString texte = ui->textEdit->toPlainText() + "*";
-    ui->textEdit->clear();
-    ui->textEdit->setText(texte);
+        undoStack->push(new AddTexte("*", this));
     }
     else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 2)
     {
-           P.ajouterPile(multiplication(typeMode, typeComplexe, P.extrairePile(), P.extrairePile()));
+        DelPile* del = new DelPile(2);
+        undoStack->push(del);
+        undoStack->push(new AddPile(multiplication(typeMode, typeComplexe, del->getA(), del->getB())));
            affichePile();
     }
 }
@@ -334,263 +333,204 @@ void MainWindow::on_pushButton_DIV_clicked()
 {
     if((!estPresentChar('/', ui->textEdit->toPlainText()) || estPresentChar('\'', ui->textEdit->toPlainText()) || nbOccurences('/', ui->textEdit->toPlainText()) < 2) && !estVide(ui->textEdit->toPlainText()))
     {
-        QString texte = ui->textEdit->toPlainText() + "/";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
+        undoStack->push(new AddTexte("/", this));
     }
     else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 2)
     {
-           P.ajouterPile(division(typeMode, typeComplexe, P.extrairePile(), P.extrairePile()));
+        DelPile* del = new DelPile(2);
+        undoStack->push(del);
+        undoStack->push(new AddPile(division(typeMode, typeComplexe, del->getA(), del->getB())));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_COS_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
-        QString texte = ui->textEdit->toPlainText() + "cos";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
-    {
-           P.ajouterPile(cosinus(P.extrairePile(), ui->radioButton->isChecked()));
+           DelPile* del = new DelPile(1);
+           undoStack->push(del);
+           undoStack->push(new AddPile(cosinus(del->getA(), ui->radioButton->isChecked())));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_COSH_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
-        QString texte = ui->textEdit->toPlainText() + "cosh";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
-    {
-           P.ajouterPile(cosinush(P.extrairePile()));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(cosinush(del->getA())));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_SIN_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
-        QString texte = ui->textEdit->toPlainText() + "sin";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
-    {
-           P.ajouterPile(sinus(P.extrairePile(), ui->radioButton->isChecked()));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(sinus(del->getA(), ui->radioButton->isChecked())));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_SINH_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
-        QString texte = ui->textEdit->toPlainText() + "sinh";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
-    {
-           P.ajouterPile(sinush(P.extrairePile()));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(sinush(del->getA())));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_TAN_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
-        QString texte = ui->textEdit->toPlainText() + "tan";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
-    {
-           P.ajouterPile(tangente(P.extrairePile(), ui->radioButton->isChecked()));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(tangente(del->getA(), ui->radioButton->isChecked())));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_TANH_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
-        QString texte = ui->textEdit->toPlainText() + "tanh";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
-    {
-           P.ajouterPile(tangenteh(P.extrairePile()));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(tangenteh(del->getA())));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_MOD_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 2)
     {
-        QString texte = ui->textEdit->toPlainText() + "mod";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 2)
-    {
-           P.ajouterPile(modulo(P.extrairePile(), P.extrairePile()));
+        DelPile* del = new DelPile(2);
+        undoStack->push(del);
+        undoStack->push(new AddPile(modulo(del->getA(), del->getB())));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_FACT_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
-        QString texte = ui->textEdit->toPlainText() + "fact";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
-    {
-           P.ajouterPile(factorielle(P.extrairePile()));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(factorielle(del->getA())));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_POW_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 2 && typeMode != complexe)
     {
-        QString texte = ui->textEdit->toPlainText() + "pow";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 2 && typeMode != complexe)
-    {
-           P.ajouterPile(puissance(P.extrairePile(), P.extrairePile(), typeMode));
+        DelPile* del = new DelPile(2);
+        undoStack->push(del);
+        undoStack->push(new AddPile(puissance(del->getA(), del->getB(), typeMode)));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_LN_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
     {
-        QString texte = ui->textEdit->toPlainText() + "ln";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
-    {
-           P.ajouterPile(logarithmeN(P.extrairePile(), typeMode));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(logarithmeN(del->getA(), typeMode)));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_LOG_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
     {
-        QString texte = ui->textEdit->toPlainText() + "log";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
-    {
-           P.ajouterPile(logarithme(P.extrairePile(), typeMode));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(logarithme(del->getA(), typeMode)));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_SQRT_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
     {
-        QString texte = ui->textEdit->toPlainText() + "sqrt";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
-    {
-           P.ajouterPile(racine(P.extrairePile(), typeMode));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(racine(del->getA(), typeMode)));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_SQR_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
-        QString texte = ui->textEdit->toPlainText() + "sqr";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
-    {
-           P.ajouterPile(carre(P.extrairePile(), typeMode, typeComplexe));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(carre(del->getA(), typeMode, typeComplexe)));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_CUBE_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
-        QString texte = ui->textEdit->toPlainText() + "cube";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
-    {
-           P.ajouterPile(cube(P.extrairePile(), typeMode, typeComplexe));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(cube(del->getA(), typeMode, typeComplexe)));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_INV_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
     {
-        QString texte = ui->textEdit->toPlainText() + "inv";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1 && typeMode != complexe)
-    {
-           P.ajouterPile(inverse(P.extrairePile(), typeMode));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(inverse(del->getA(), typeMode)));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_SIGN_clicked()
 {
-    if ((estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
+    if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
     {
-        QString texte = ui->textEdit->toPlainText() + "sign";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
-    else if(estVide(ui->textEdit->toPlainText()) && P.getTaille() >= 1)
-    {
-           P.ajouterPile(signe(P.extrairePile(), typeMode, typeComplexe));
+        DelPile* del = new DelPile(1);
+        undoStack->push(del);
+        undoStack->push(new AddPile(signe(del->getA(), typeMode, typeComplexe)));
            affichePile();
     }
 }
 void MainWindow::on_pushButton_DUP_clicked()
 {
     if(!P.estVide()){
-    P.dupliquer();
-    affichePile();}
+        undoStack->push(new AddPile(P.dupliquer()));
+        affichePile();
+    }
 }
 void MainWindow::on_pushButton_CLEAR_clicked()
 {
     P.viderPile();
+    undoStack->clear();
     affichePile();
 }
 void MainWindow::on_pushButton_DROP_clicked()
 {
     if(!P.estVide()){
-    P.extrairePile();
+    undoStack->push(new DelPile(1));
     affichePile();}
 }
 void MainWindow::on_pushButton_Annuler_clicked()
 {
-    if(estVide(ui->textEdit->toPlainText())){
-    P.extrairePile();
-    affichePile();
-    }
+        emit undoC();
+        affichePile();
+}
+void MainWindow::on_pushButton_Retablir_clicked()
+{
+        emit redoC();
+        affichePile();
 }
 void MainWindow::on_pushButton_Enter_clicked()
 {
@@ -598,39 +538,45 @@ void MainWindow::on_pushButton_Enter_clicked()
     {
         Type temp = typeTexte(ui->textEdit->toPlainText());
 
-        if (temp==expression)
-        {
-            P.ajouterPile(FactoryConst::creerConstante(ui->textEdit->toPlainText().toStdString(),temp));
-            ui->textEdit->clear();
-         }
+        if (temp == expression)
+                {
+                    string chaine = ui->textEdit->toPlainText().toStdString();
+                    undoStack->push(new DelTexte(ui->textEdit->toPlainText().toStdString(), this));
+                    undoStack->push(new AddPile(FactoryConst::creerConstante(chaine,temp)));
+                    ui->textEdit->clear();
+                 }
         else if(typeMode != complexe && temp != erreur)
         {
+            string chaine = ui->textEdit->toPlainText().toStdString();
+            undoStack->push(new DelTexte(ui->textEdit->toPlainText().toStdString(), this));
+
             if(temp == complexe)
-                P.ajouterPile(FactoryConst::creerConstante(ui->textEdit->toPlainText().toStdString(), typeMode, temp, typeComplexe));
+                undoStack->push(new AddPile(FactoryConst::creerConstante(chaine, typeMode, temp, typeComplexe)));
             else
-                P.ajouterPile(FactoryConst::creerConstante(ui->textEdit->toPlainText().toStdString(), typeMode, temp));
+                undoStack->push(new AddPile(FactoryConst::creerConstante(chaine, typeMode, temp)));
             ui->textEdit->clear();
         }
         else if(temp == complexe)
         {
             int i = ui->textEdit->toPlainText().toStdString().find_first_of('$');
+            string chaine = ui->textEdit->toPlainText().toStdString();
             string a = ui->textEdit->toPlainText().toStdString().substr(0, i);
             Type temp2 = typeTexte(QString(a.c_str()));
-            P.ajouterPile(FactoryConst::creerConstante(ui->textEdit->toPlainText().toStdString(), typeMode, temp, typeComplexe, temp2));
+            undoStack->push(new DelTexte(ui->textEdit->toPlainText().toStdString(), this));
+            undoStack->push(new AddPile(FactoryConst::creerConstante(chaine, typeMode, temp, typeComplexe, temp2)));
             ui->textEdit->clear();
         }
         else if(temp == erreur)
         {
-            ui->textEdit->setText("Expression non valide...");
+            ui->textEdit->clear();
+            undoStack->push(new AddTexte("Expression non valide...", this));
         }
     }
     else if(!P.estVide())
-        P.dupliquer();
+        undoStack->push(new AddPile(P.dupliquer()));
 
     affichePile();
 }
-
-
 void MainWindow::on_pushButton_EVAL_clicked()
 {
     /*Quand on clique sur EVAL, si la zone de texte contient une expression,
@@ -654,8 +600,9 @@ void MainWindow::on_pushButton_EVAL_clicked()
         {
             if (P.sommetPile()->getType()==expression)
             {
-
-                Constante* a = P.extrairePile();
+                DelPile* del = new DelPile(1);
+                undoStack->push(del);
+                Constante* a = del->getA();
 
                 Expression* temp2 = dynamic_cast<Expression*>(a);
                 evaluer(temp2);
@@ -668,6 +615,12 @@ void MainWindow::on_pushButton_EVAL_clicked()
     }
 
     affichePile();
+}
+
+
+void MainWindow::on_pushButton_Virgule_clicked()
+{
+    ecrireVirgule();
 }
 
 //Définition des Slots Perso
@@ -715,9 +668,9 @@ void MainWindow::afficheClavier()
 }
 void MainWindow::effacer()
 {
-    QString tmp = ui->textEdit->toPlainText();
-    int i = tmp.length();
-    ui->textEdit->setPlainText(tmp.left(i-1));
+    if(!ui->textEdit->toPlainText().isEmpty()){
+    undoStack->push(new DelTexte(&ui->textEdit->toPlainText().toStdString().at(ui->textEdit->toPlainText().length()-1), this));
+    }
 }
 void MainWindow::changeMode(int m)
 {
@@ -795,35 +748,27 @@ void MainWindow::ecrireComplexe()
 {
     if(ui->checkBox->isChecked() && ((!estPresentChar('$', ui->textEdit->toPlainText())) || estPresentChar('\'', ui->textEdit->toPlainText())) && !estVide(ui->textEdit->toPlainText()))
     {
-        QString texte = ui->textEdit->toPlainText() + "$";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
+        undoStack->push(new AddTexte("$", this));
     }
 }
 void MainWindow::ecrireExpression()
 {
     if(nbOccurences('\'', ui->textEdit->toPlainText()) < 2){
-        QString texte = ui->textEdit->toPlainText() + "'";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
+        undoStack->push(new AddTexte("'", this));
     }
 }
 void MainWindow::ecrireVirgule()
 {
-    if((!estPresentChar(',', ui->textEdit->toPlainText()) || estPresentChar('$', ui->textEdit->toPlainText())) && nbOccurences(',', ui->textEdit->toPlainText()) < 2)
-    {
-        QString texte = ui->textEdit->toPlainText() + ",";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
-    }
+    /*if((!estPresentChar(',', ui->textEdit->toPlainText()) || estPresentChar('$', ui->textEdit->toPlainText())) && nbOccurences(',', ui->textEdit->toPlainText()) < 2)
+    {*/
+        undoStack->push(new AddTexte(",", this));
+  //  }
 }
 void MainWindow::ecrireEspace()
 {
     if((estPresentChar('\'', ui->textEdit->toPlainText())))
     {
-        QString texte = ui->textEdit->toPlainText() + " ";
-        ui->textEdit->clear();
-        ui->textEdit->setText(texte);
+        undoStack->push(new AddTexte(" ", this));
     }
 }
 void MainWindow::changeAffichagePile()
@@ -863,7 +808,75 @@ void MainWindow::affichePile()
         ui->listWidget->clear();
 }
 
-/******************************************** EVALUATION D'UNE EXPRESSION *************************************************************************************/
+//fonctions liées à la classe AddTexte
+
+AddTexte::AddTexte(std::string s, MainWindow* w, QUndoCommand *parent) : QUndoCommand(parent)
+{
+    chaine = s.c_str();
+    taille = chaine.length();
+    ptr = w;
+}
+void AddTexte::undo()
+{
+    for(int i = 0; i < taille; i++)
+        ptr->effacerTexte();
+}
+void AddTexte::redo()
+{
+    ptr->ajouterTexte(chaine);
+}
+
+//fonctions liées à la classe DelTexte
+
+DelTexte::DelTexte(std::string s, MainWindow* w, QUndoCommand *parent) : QUndoCommand(parent)
+{
+    chaine = s.c_str();
+    ptr = w;
+}
+void DelTexte::undo()
+{
+    ptr->ajouterTexte(chaine);
+}
+void DelTexte::redo()
+{
+    for(int i = 0; i < chaine.length(); i++)
+        ptr->effacerTexte();
+}
+
+//fonctions liées à la classe AddPile
+
+AddPile::AddPile(Constante* c1, QUndoCommand *parent): QUndoCommand(parent), a(c1)
+{
+
+}
+void AddPile::undo()
+{
+    P.extrairePile();
+}
+void AddPile::redo()
+{
+    P.ajouterPile(a);
+}
+
+//fonctions liées à la classe DelPile
+
+DelPile::DelPile(int i, QUndoCommand *parent): QUndoCommand(parent),  nbConst(i), a(0), b(0)
+{
+
+}
+void DelPile::undo()
+{
+    if(b != 0)
+        P.ajouterPile(b);
+    if(a != 0)
+        P.ajouterPile(a);
+}
+void DelPile::redo()
+{
+    a = P.extrairePile();
+    if(nbConst == 2)
+        b = P.extrairePile();
+}
 
 void MainWindow::evaluer(Expression* expr)
 {
@@ -875,9 +888,6 @@ void MainWindow::evaluer(Expression* expr)
     while(chaine[0]!=39)
         //tant qu'on est pas arrivés au bout de l'expression
     {
-
-
-
 
         if (chaine[0]!=32)
         {
@@ -899,26 +909,29 @@ void MainWindow::evaluer(Expression* expr)
                     }
                     else
                     {
-                        Constante* temp1 = P.extrairePile();
-                        Constante* temp2 = P.extrairePile();
+                        DelPile* del = new DelPile(2);
+                        undoStack->push(del);
+
+                        Constante* temp1 = del->getA();
+                        Constante* temp2 = del->getB();
 
                         if (s=="+")
-                            P.ajouterPile(addition(typeMode, typeComplexe, temp1, temp2));
+                            undoStack->push(new AddPile(addition(typeMode, typeComplexe, temp1, temp2)));
 
                         else if (s=="-")
-                             P.ajouterPile(soustraction(typeMode, typeComplexe, temp1, temp2));
+                             undoStack->push(new AddPile(soustraction(typeMode, typeComplexe, temp1, temp2)));
 
                         else if (s=="*")
-                             P.ajouterPile(multiplication(typeMode, typeComplexe, temp1, temp2));
+                             undoStack->push(new AddPile(multiplication(typeMode, typeComplexe, temp1, temp2)));
 
                         else if (s=="/")
-                             P.ajouterPile(division(typeMode, typeComplexe, temp1, temp2));
+                             undoStack->push(new AddPile(division(typeMode, typeComplexe, temp1, temp2)));
 
                         else if (s=="mod")
-                             P.ajouterPile(modulo(temp1,temp2));
+                             undoStack->push(new AddPile(modulo(temp1,temp2)));
 
                         else if (s=="pow")
-                            P.ajouterPile(puissance(temp1,temp2,typeMode));
+                            undoStack->push(new AddPile(puissance(temp1,temp2,typeMode)));
 
 
                     }
@@ -935,49 +948,52 @@ void MainWindow::evaluer(Expression* expr)
                     }
                     else
                     {
-                        Constante* temp1 = P.extrairePile();
+                        DelPile* del = new DelPile(1);
+                        undoStack->push(del);
+
+                        Constante* temp1 = del->getA();
 
                         if (s=="cos")
-                            P.ajouterPile(cosinus(temp1,ui->radioButton->isChecked()));
+                            undoStack->push(new AddPile(cosinus(temp1,ui->radioButton->isChecked())));
 
                         else if (s=="sin")
-                            P.ajouterPile(sinus(temp1,ui->radioButton->isChecked()));
+                            undoStack->push(new AddPile(sinus(temp1,ui->radioButton->isChecked())));
 
                         else if (s=="tan")
-                            P.ajouterPile(tangente(temp1,ui->radioButton->isChecked()));
+                            undoStack->push(new AddPile(tangente(temp1,ui->radioButton->isChecked())));
 
                         else if (s=="cosh")
-                            P.ajouterPile(cosinush(temp1));
+                            undoStack->push(new AddPile(cosinush(temp1)));
 
                         else if (s=="sinh")
-                            P.ajouterPile(sinush(temp1));
+                            undoStack->push(new AddPile(sinush(temp1)));
 
                         else if (s=="tanh")
-                            P.ajouterPile(tangenteh(temp1));
+                            undoStack->push(new AddPile(tangenteh(temp1)));
 
                         else if (s=="ln")
-                            P.ajouterPile(logarithmeN(temp1,typeMode));
+                            undoStack->push(new AddPile(logarithmeN(temp1,typeMode)));
 
                         else if (s=="log")
-                            P.ajouterPile(logarithme(temp1,typeMode));
+                            undoStack->push(new AddPile(logarithme(temp1,typeMode)));
 
                         else if (s=="sqr")
-                            P.ajouterPile(carre(temp1,typeMode,typeComplexe));
+                            undoStack->push(new AddPile(carre(temp1,typeMode,typeComplexe)));
 
                         else if (s=="sqrt")
-                            P.ajouterPile(racine(temp1,typeMode));
+                            undoStack->push(new AddPile(racine(temp1,typeMode)));
 
                         else if (s=="cube")
-                            P.ajouterPile(cube(temp1,typeMode,typeComplexe));
+                            undoStack->push(new AddPile(cube(temp1,typeMode,typeComplexe)));
 
                         else if (s=="fact")
-                            P.ajouterPile(factorielle(convertirEntier(temp1)));
+                            undoStack->push(new AddPile(factorielle(convertirEntier(temp1))));
 
                         else if (s=="sign")
-                            P.ajouterPile(signe(temp1,typeMode,typeComplexe));
+                            undoStack->push(new AddPile(signe(temp1,typeMode,typeComplexe)));
 
                         else if (s=="inv")
-                            P.ajouterPile(inverse(temp1,typeMode));
+                            undoStack->push(new AddPile(inverse(temp1,typeMode)));
 
 
                     }
@@ -992,9 +1008,9 @@ void MainWindow::evaluer(Expression* expr)
                     if(typeMode != complexe && temp != erreur)
                     {
                         if(temp == complexe)
-                            P.ajouterPile(FactoryConst::creerConstante(s, typeMode, temp, typeComplexe));
+                            undoStack->push(new AddPile(FactoryConst::creerConstante(s, typeMode, temp, typeComplexe)));
                         else
-                            P.ajouterPile(FactoryConst::creerConstante(s, typeMode, temp));
+                            undoStack->push(new AddPile(FactoryConst::creerConstante(s, typeMode, temp)));
 
                     }
                     else if(temp == complexe)
@@ -1002,7 +1018,7 @@ void MainWindow::evaluer(Expression* expr)
                         int j = s.find_first_of('$');
                         string a = s.substr(0, j);
                         Type temp2 = typeTexte(QString(a.c_str()));
-                        P.ajouterPile(FactoryConst::creerConstante(s, typeMode, temp, typeComplexe, temp2));
+                        undoStack->push(new AddPile(FactoryConst::creerConstante(s, typeMode, temp, typeComplexe, temp2)));
 
                     }
                     else if(temp == erreur)
@@ -1018,5 +1034,3 @@ void MainWindow::evaluer(Expression* expr)
 
     } //fin du while
 }
-
-

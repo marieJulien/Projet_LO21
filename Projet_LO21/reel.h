@@ -2,6 +2,7 @@
 #define REEL_H
 
 #include "constante.h"
+#include "mainwindow.h"
 
 class Reel : public Constante
 {

@@ -1,11 +1,12 @@
 #ifndef COMPLEXE_H
 #define COMPLEXE_H
 
-#include "constante.h"
 #include "entier.h"
 #include "rationnel.h"
 #include "reel.h"
 #include "expression.h"
+
+
 
 class Complexe : public Constante
 {

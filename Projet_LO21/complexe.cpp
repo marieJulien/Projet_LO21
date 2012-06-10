@@ -86,12 +86,12 @@ void Complexe::construireConstante(const std::string& val)
     else if(contient == rationnel)
     {
         Rationnel* n = new Rationnel(temp1);
-        n->simplifier();
-        p_Reel = n;
+                n->simplifier();
+                p_Reel = n;
 
-        Rationnel* n2 = new Rationnel(temp2);
-        n2->simplifier();
-        p_Im = n2;
+                Rationnel* n2 = new Rationnel(temp2);
+                n2->simplifier();
+                p_Im = n2;
     }
     else if(contient == reel)
     {
@@ -268,8 +268,6 @@ Complexe& Complexe::operator+=(Complexe const& e)
         Rationnel* temp3 = dynamic_cast<Rationnel*>(e.getReel());
         Rationnel* temp4 = dynamic_cast<Rationnel*>(e.getIm());
 
-
-
         temp1->getNum()->setVal(temp1->getNum()->getVal()*temp3->getDen()->getVal() + temp3->getNum()->getVal()*temp1->getDen()->getVal());
         temp1->getDen()->setVal(temp1->getDen()->getVal() * temp3->getDen()->getVal());
 
@@ -317,7 +315,6 @@ Complexe& Complexe::operator-=(Complexe const& e)
         temp2->getNum()->setVal(temp4->getNum()->getVal()*temp2->getDen()->getVal() - temp2->getNum()->getVal()*temp4->getDen()->getVal());
         temp2->getDen()->setVal(temp2->getDen()->getVal() * temp4->getDen()->getVal());
 
-
         temp1->simplifier();
         temp2->simplifier();
     }
@@ -361,7 +358,6 @@ Complexe& Complexe::operator*=(Complexe const& e)
 
         temp2->getNum()->setVal(((i*temp2->getNum()->getVal()*temp2->getDen()->getVal()*temp3->getDen()->getVal() + temp2->getNum()->getVal()*temp3->getNum()->getVal()*j*temp4->getDen()->getVal())));
         temp2->getDen()->setVal((temp1->getDen()->getVal()*temp3->getDen()->getVal()*temp2->getDen()->getVal()*temp4->getDen()->getVal()));
-
 
         temp1->simplifier();
         temp2->simplifier();

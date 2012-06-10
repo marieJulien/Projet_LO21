@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Fri Jun 8 17:16:19 2012
-**      by: Qt User Interface Compiler version 4.7.4
+** Created: Sat Jun 9 19:44:25 2012
+**      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -38,6 +38,8 @@ class Ui_MainWindow
 public:
     QAction *actionQuitter;
     QAction *actionClavier;
+    QAction *actionAnnuler;
+    QAction *actionRetablir;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout_6;
     QHBoxLayout *horizontalLayout;
@@ -78,6 +80,7 @@ public:
     QPushButton *pushButton_EVAL;
     QPushButton *pushButton_Mul;
     QPushButton *pushButton_Moins;
+    QPushButton *pushButton_Virgule;
     QGridLayout *gridLayout_5;
     QPushButton *pushButton_SIGN;
     QPushButton *pushButton_MOD;
@@ -115,6 +118,10 @@ public:
         actionClavier->setObjectName(QString::fromUtf8("actionClavier"));
         actionClavier->setCheckable(true);
         actionClavier->setChecked(true);
+        actionAnnuler = new QAction(MainWindow);
+        actionAnnuler->setObjectName(QString::fromUtf8("actionAnnuler"));
+        actionRetablir = new QAction(MainWindow);
+        actionRetablir->setObjectName(QString::fromUtf8("actionRetablir"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         centralWidget->setEnabled(true);
@@ -284,7 +291,7 @@ public:
         pushButton_0 = new QPushButton(centralWidget);
         pushButton_0->setObjectName(QString::fromUtf8("pushButton_0"));
 
-        gridLayout_4->addWidget(pushButton_0, 3, 0, 1, 3);
+        gridLayout_4->addWidget(pushButton_0, 3, 0, 1, 2);
 
         pushButton_6 = new QPushButton(centralWidget);
         pushButton_6->setObjectName(QString::fromUtf8("pushButton_6"));
@@ -315,6 +322,11 @@ public:
         pushButton_Moins->setObjectName(QString::fromUtf8("pushButton_Moins"));
 
         gridLayout_4->addWidget(pushButton_Moins, 1, 3, 1, 1);
+
+        pushButton_Virgule = new QPushButton(centralWidget);
+        pushButton_Virgule->setObjectName(QString::fromUtf8("pushButton_Virgule"));
+
+        gridLayout_4->addWidget(pushButton_Virgule, 3, 2, 1, 1);
 
 
         horizontalLayout_3->addLayout(gridLayout_4);
@@ -441,6 +453,8 @@ public:
 
         menuBar->addAction(menuCalculatrice->menuAction());
         menuBar->addAction(menuMode->menuAction());
+        menuCalculatrice->addAction(actionAnnuler);
+        menuCalculatrice->addAction(actionRetablir);
         menuCalculatrice->addAction(actionQuitter);
         menuMode->addAction(actionClavier);
 
@@ -455,6 +469,8 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Calculatrice", 0, QApplication::UnicodeUTF8));
         actionQuitter->setText(QApplication::translate("MainWindow", "Quitter", 0, QApplication::UnicodeUTF8));
         actionClavier->setText(QApplication::translate("MainWindow", "Clavier", 0, QApplication::UnicodeUTF8));
+        actionAnnuler->setText(QApplication::translate("MainWindow", "Annuler", 0, QApplication::UnicodeUTF8));
+        actionRetablir->setText(QApplication::translate("MainWindow", "R\303\251tablir", 0, QApplication::UnicodeUTF8));
         pushButton_DUP->setText(QApplication::translate("MainWindow", "DUP", 0, QApplication::UnicodeUTF8));
         pushButton_SUM->setText(QApplication::translate("MainWindow", "SUM", 0, QApplication::UnicodeUTF8));
         pushButton_DROP->setText(QApplication::translate("MainWindow", "DROP", 0, QApplication::UnicodeUTF8));
@@ -488,6 +504,7 @@ public:
         pushButton_EVAL->setText(QApplication::translate("MainWindow", "EVAL", 0, QApplication::UnicodeUTF8));
         pushButton_Mul->setText(QApplication::translate("MainWindow", "*", 0, QApplication::UnicodeUTF8));
         pushButton_Moins->setText(QApplication::translate("MainWindow", "-", 0, QApplication::UnicodeUTF8));
+        pushButton_Virgule->setText(QApplication::translate("MainWindow", ",", 0, QApplication::UnicodeUTF8));
         pushButton_SIGN->setText(QApplication::translate("MainWindow", "SIGN", 0, QApplication::UnicodeUTF8));
         pushButton_MOD->setText(QApplication::translate("MainWindow", "MOD", 0, QApplication::UnicodeUTF8));
         pushButton_POW->setText(QApplication::translate("MainWindow", "POW", 0, QApplication::UnicodeUTF8));

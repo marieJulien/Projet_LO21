@@ -53,33 +53,33 @@ Constante* Pile::extrairePile()
     }
     else return NULL;
 }
-void Pile::dupliquer()
+Constante* Pile::dupliquer()
 {
     Constante* temp = p.top();
     string s = temp->getChaine();
 
-    if(temp == NULL) return;
+    if(temp == NULL) return NULL;
 
     if(temp->getType() == entier)
     {
         Entier* Dup = new Entier(s);
-        p.push(Dup);
+        return Dup;
     }
     else if(temp->getType() == rationnel)
     {
         Rationnel* Dup = new Rationnel(s);
-        p.push(Dup);
+        return Dup;
     }
     else if(temp->getType() == reel)
     {
         Reel* Dup = new Reel(s);
-        p.push(Dup);
+        return Dup;
     }
     else
     {
         Complexe* temp2 = dynamic_cast<Complexe*>(temp);
         Complexe* Dup = new Complexe(s, temp2->getContient());
-        p.push(Dup);
+        return Dup;
     }
 }
 void Pile::viderPile()
